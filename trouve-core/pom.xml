@@ -7,13 +7,12 @@
     <parent>
         <groupId>com.lei6393.trouve</groupId>
         <artifactId>trouve-all</artifactId>
-        <version>${release.version}</version>
+        <version>1.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
 
     <artifactId>trouve-core</artifactId>
-    <version>${release.version}</version>
 
 
     <properties>

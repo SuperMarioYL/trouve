@@ -30,5 +30,10 @@ Build Instructions for trouve
 
     Execute the following command in order to build the tar.gz packages and install JAR into local repository:
 
-	#build trouve
-    $ mvn clean install -Prelease -DskipTests
+	# build trouve
+    $ mvn clean install -Prelease -DskipTests source:jar
+
+    # edit version and build trouve
+    $ edit main pom.xml [version]
+    $ mvn versions:update-child-modules && mvn versions:update-child-modules && mvn clean install -Prelease -DskipTests source:jar
+
