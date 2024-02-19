@@ -1,8 +1,13 @@
-# trouve
+# Trouve
+
+## trouve : 基于 Spring 的一款集成服务发现、服务注册、服务转发的通用 SDK
+
+
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+-------
 
 ## 介绍
-
-trouve 是基于 Spring 的一款集成服务发现、服务注册、服务转发的通用 SDK ，使用简单方便快捷
 
 最新版本：
 
@@ -10,7 +15,15 @@ trouve 是基于 Spring 的一款集成服务发现、服务注册、服务转�
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-client</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.5</version>
+</dependency>
+```
+
+```xml
+<dependency>
+    <groupId>com.lei6393.trouve</groupId>
+    <artifactId>trouve-server</artifactId>
+    <version>1.0.5</version>
 </dependency>
 ```
 
