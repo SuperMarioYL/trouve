@@ -31,7 +31,7 @@ import java.util.List;
  *     }
  * </pre>
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/6/7 20:15
  */
 public interface LoadBalancePolicy {

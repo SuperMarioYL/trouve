@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/11 20:55
  */
 public class HeartBeatSender extends AbstractSender<Instance> {

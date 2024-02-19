@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 /**
  * 标注API是否开放
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/12 22:15
  */
 @Target({ElementType.TYPE, ElementType.METHOD})

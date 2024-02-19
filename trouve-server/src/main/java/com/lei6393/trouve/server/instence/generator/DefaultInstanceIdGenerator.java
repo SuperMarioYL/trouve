@@ -1,7 +1,7 @@
 package com.lei6393.trouve.server.instence.generator;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/23 16:27
  */
 public class DefaultInstanceIdGenerator implements IdGenerator{

@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/26 18:17
  */
 @Target({ElementType.TYPE})

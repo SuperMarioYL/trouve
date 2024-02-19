@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/11 20:27
  */
 public class TrouveRegistry extends ScheduledRegistry implements ApplicationContextAware {

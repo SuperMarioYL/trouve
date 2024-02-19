@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  * 开启服务发现
  * 相关可配置属性详见 {@link EnvProperties }
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/18 23:43
  */
 @Target({ElementType.TYPE})

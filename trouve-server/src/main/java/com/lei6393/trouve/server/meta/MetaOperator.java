@@ -3,7 +3,7 @@ package com.lei6393.trouve.server.meta;
 import com.lei6393.trouve.core.data.MetaMsg;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/25 12:02
  */
 public interface MetaOperator {

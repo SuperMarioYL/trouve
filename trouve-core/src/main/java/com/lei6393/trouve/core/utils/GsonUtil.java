@@ -3,7 +3,7 @@ package com.lei6393.trouve.core.utils;
 import com.google.gson.Gson;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/19 17:26
  */
 public class GsonUtil {

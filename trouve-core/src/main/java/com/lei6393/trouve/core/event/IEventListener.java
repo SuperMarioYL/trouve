@@ -1,7 +1,7 @@
 package com.lei6393.trouve.core.event;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/23 01:27
  */
 public interface IEventListener<EVENT extends IEvent> {

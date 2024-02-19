@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/22 23:57
  */
 public class InetUtil {

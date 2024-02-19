@@ -9,7 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/12 11:07
  */
 public class UDPSender {

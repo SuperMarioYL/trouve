@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 最短响应负载均衡策略
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/6/8 16:17
  */
 public class ShortestResponseLoadBalancePolicy extends AbstractLoadBalancePolicy {

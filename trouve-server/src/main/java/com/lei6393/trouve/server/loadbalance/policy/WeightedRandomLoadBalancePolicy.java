@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * 加权随机负载均衡策略
  * 默认策略
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/6/8 11:56
  */
 public class WeightedRandomLoadBalancePolicy extends AbstractLoadBalancePolicy {

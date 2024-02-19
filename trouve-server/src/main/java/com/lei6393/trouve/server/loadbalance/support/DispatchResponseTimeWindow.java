@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.server.ServletServerHttpRequest;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/6/8 17:13
  */
 public class DispatchResponseTimeWindow implements IDispatchInterceptor {

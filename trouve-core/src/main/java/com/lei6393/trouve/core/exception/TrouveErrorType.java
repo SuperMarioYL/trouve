@@ -1,7 +1,7 @@
 package com.lei6393.trouve.core.exception;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/7/1 18:21
  */
 public enum TrouveErrorType {

@@ -18,7 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/25 00:58
  */
 public abstract class ScheduledRegistry {

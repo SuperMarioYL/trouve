@@ -1,7 +1,7 @@
 package com.lei6393.trouve.core;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/20 20:14
  */
 public class MetaConstants {

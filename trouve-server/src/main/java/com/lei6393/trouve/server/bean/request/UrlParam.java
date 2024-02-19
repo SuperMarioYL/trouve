@@ -1,7 +1,7 @@
 package com.lei6393.trouve.server.bean.request;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/24 22:02
  */
 public class UrlParam {

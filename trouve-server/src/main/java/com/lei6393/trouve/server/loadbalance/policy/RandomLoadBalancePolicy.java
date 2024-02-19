@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * 随机负载均衡，不考虑权重
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/6/8 12:16
  */
 public class RandomLoadBalancePolicy extends AbstractLoadBalancePolicy {
