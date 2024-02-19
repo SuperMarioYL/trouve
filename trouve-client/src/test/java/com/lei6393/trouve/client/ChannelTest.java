@@ -3,7 +3,7 @@ package com.lei6393.trouve.client;
 import org.junit.Test;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/12 11:18
  */
 public class ChannelTest {

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 服务信息
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/20 19:46
  */
 public class ServiceInfo implements Serializable {

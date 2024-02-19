@@ -3,7 +3,7 @@ package com.lei6393.trouve.core.exception;
 import java.text.MessageFormat;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/22 09:43
  */
 public class TrouveException extends Exception {

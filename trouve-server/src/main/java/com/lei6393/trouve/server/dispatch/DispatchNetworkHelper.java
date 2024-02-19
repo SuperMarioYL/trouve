@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 分发器 HTTP 配置
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/25 22:16
  */
 public class DispatchNetworkHelper {

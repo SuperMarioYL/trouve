@@ -3,7 +3,7 @@ package com.lei6393.trouve.server.bean.request;
 import org.springframework.http.HttpHeaders;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/7/4 16:26
  */
 public class PartParam {

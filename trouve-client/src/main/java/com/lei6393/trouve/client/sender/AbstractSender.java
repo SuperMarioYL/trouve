@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/24 23:07
  */
 public abstract class AbstractSender<DATA> {

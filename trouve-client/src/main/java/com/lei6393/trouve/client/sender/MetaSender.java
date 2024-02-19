@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/11 20:55
  */
 public class MetaSender extends AbstractSender<MetaMsg> {

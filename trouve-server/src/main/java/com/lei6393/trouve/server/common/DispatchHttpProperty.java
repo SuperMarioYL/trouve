@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/26 18:17
  */
 @Target({ElementType.TYPE})

@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/25 11:19
  */
 public class RedisInstanceHealthChecker extends AbstractHealthChecker implements InstanceOperator {

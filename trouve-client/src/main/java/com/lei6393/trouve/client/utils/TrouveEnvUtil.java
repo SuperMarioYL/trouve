@@ -7,7 +7,7 @@ import com.lei6393.trouve.core.utils.InetUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/26 16:26
  */
 public class TrouveEnvUtil {

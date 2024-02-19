@@ -4,7 +4,7 @@ import com.lei6393.trouve.server.consistency.nonsingleton.redis.RedisConsistency
 import com.lei6393.trouve.server.consistency.singleton.SingletonConsistencyConfiguration;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/26 17:33
  */
 public class EnvProperties {

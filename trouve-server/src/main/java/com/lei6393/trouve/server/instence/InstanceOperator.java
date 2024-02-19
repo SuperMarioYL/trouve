@@ -4,7 +4,7 @@ import com.lei6393.trouve.core.data.instance.Instance;
 import com.lei6393.trouve.core.exception.TrouveException;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/23 14:34
  */
 public interface InstanceOperator {

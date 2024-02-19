@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/25 11:19
  */
 public class SingletonInstanceHealthChecker extends AbstractHealthChecker implements InstanceOperator {

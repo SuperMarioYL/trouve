@@ -30,7 +30,7 @@ import org.springframework.http.server.ServletServerHttpRequest;
  * }
  * </pre>
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/25 22:28
  */
 public interface IDispatchInterceptor {

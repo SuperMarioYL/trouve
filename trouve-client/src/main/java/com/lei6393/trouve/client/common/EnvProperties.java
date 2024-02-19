@@ -5,7 +5,7 @@ import java.net.InetAddress;
 /**
  * 可配置的环境变量
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/26 16:15
  */
 public class EnvProperties {

@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * 开启服务发现
  * 可配置属性详见 {@link EnvProperties }
  *
- * @author yulei
+ * @author leiyu
  * @date 2022/5/16 10:01
  */
 @Target({ElementType.TYPE})

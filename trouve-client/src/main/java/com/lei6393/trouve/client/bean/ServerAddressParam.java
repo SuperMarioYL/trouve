@@ -5,7 +5,7 @@ import com.lei6393.trouve.client.ServerAddress;
 import java.net.URI;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/6/7 11:36
  */
 public class ServerAddressParam {

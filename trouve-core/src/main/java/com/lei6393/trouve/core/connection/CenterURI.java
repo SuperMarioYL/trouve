@@ -1,7 +1,7 @@
 package com.lei6393.trouve.core.connection;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/5/20 11:12
  */
 public enum CenterURI {

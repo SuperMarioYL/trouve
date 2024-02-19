@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * @author yulei
+ * @author leiyu
  * @date 2022/6/8 11:55
  */
 public abstract class AbstractLoadBalancePolicy implements LoadBalancePolicy {
