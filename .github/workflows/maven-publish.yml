@@ -26,8 +26,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           server-id: central
-          server-username: ${{ secrets.CENTRAL_USERNAME }}
-          server-password: ${{ secrets.CENTRAL_PASSWORD }}
+          server-username: 8MwK955B
+          server-password: Lw97uBrGzvh6rLq7Z8orrUOpA/8n6OGm9EwwkNfX1SQ6
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
