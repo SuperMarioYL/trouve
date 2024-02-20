@@ -7,7 +7,7 @@
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-all</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <name>Trouve ${project.version}</name>
     <description>Top Trouve project pom.xml file</description>
     <modules>
@@ -21,6 +21,7 @@
         <release.version>${version}</release.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <javadoc.release>11</javadoc.release>
 
         <junit.version>4.13.2</junit.version>
         <commons-logging.version>1.2</commons-logging.version>
