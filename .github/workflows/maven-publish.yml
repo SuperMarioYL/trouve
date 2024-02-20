@@ -10,7 +10,7 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Import GPG Key
         uses: crazy-max/ghaction-import-gpg@v6.1.0
         with:
@@ -31,9 +31,24 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: test
+        run: echo ${{ secrets.CENTRAL_USERNAME }} && echo ${{ secrets.CENTRAL_USERNAME }}
+
       - name: Publish to the Maven Central Repository
-        run: mvn clean --batch-mode deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+        run: mvn --batch-mode clean deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Set up Java for publishing to GitHub Packages
+        uses: actions/setup-java@v4.0.0
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: central
+          server-username: ${{ secrets.CENTRAL_USERNAME }}
+          server-password: ${{ secrets.CENTRAL_PASSWORD }}
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
       - name: Publish to GitHub Packages
-        run: mvn clean --batch-mode deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+        run: mvn --batch-mode clean deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
