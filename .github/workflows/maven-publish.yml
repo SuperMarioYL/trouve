@@ -19,12 +19,14 @@ jobs:
           server-id: central
           server-username: ${{ secrets.CENTRAL_USERNAME }}
           server-password: ${{ secrets.CENTRAL_PASSWORD }}
+          gpg-private-key: GPG_PRIVATE_KEY
+          gpg-passphrase: GPG_PASSPHRASE
 
       - name: Import GPG Key
         uses: crazy-max/ghaction-import-gpg@v6.1.0
         with:
-          gpg-private-key: GPG_PRIVATE_KEY
-          passphrase: GPG_PASSPHRASE
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: D96BDE216AF4E2A47082FEB6CFBF58D5BE54CB4F
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
