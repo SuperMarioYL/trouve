@@ -1,7 +1,7 @@
 name: Publish package to the Maven Central Repository and GitHub Packages
 on:
   release:
-    types: [ created, released, prereleased, edited, published ]
+    types: [ created ]
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -16,7 +16,6 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          git_user_signingkey: D96BDE216AF4E2A47082FEB6CFBF58D5BE54CB4F
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
