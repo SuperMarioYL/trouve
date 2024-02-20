@@ -32,8 +32,8 @@ jobs:
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Publish to the Maven Central Repository
-        run: mvn --batch-mode deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+        run: mvn clean -X --batch-mode deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
       - name: Publish to GitHub Packages
-        run: mvn --batch-mode deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+        run: mvn clean -X --batch-mode deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
