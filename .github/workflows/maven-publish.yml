@@ -19,8 +19,6 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          AA: ${{ secrets.CENTRAL_PASSWORD }}
-          BB: ${{ secrets.CENTRAL_USERNAME }}
 
       - name: Set up Java for publishing to Maven Central Repository and GitHub Packages
         uses: actions/setup-java@v4.0.0
@@ -35,6 +33,9 @@ jobs:
 
       - name: test
         run: echo $AA && echo $BB
+        env: 
+          AA: ${{ secrets.CENTRAL_PASSWORD }}
+          BB: ${{ secrets.CENTRAL_USERNAME }}
 
       - name: Publish to the Maven Central Repository
         run: mvn --batch-mode clean deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
