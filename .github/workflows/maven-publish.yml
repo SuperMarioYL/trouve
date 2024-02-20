@@ -1,7 +1,7 @@
 name: Publish package to the Maven Central Repository and GitHub Packages
 on:
   release:
-    types: [ created ]
+    types: [ created, released, prereleased, edited, published ]
 jobs:
   publish:
     runs-on: ubuntu-latest
