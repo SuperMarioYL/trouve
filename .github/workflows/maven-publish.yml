@@ -31,12 +31,6 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: test
-        run: echo $AA && echo $BB
-        env: 
-          AA: ${{ secrets.CENTRAL_PASSWORD }}
-          BB: ${{ secrets.CENTRAL_USERNAME }}
-
       - name: Publish to the Maven Central Repository
         run: mvn --batch-mode clean deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
 
