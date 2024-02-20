@@ -192,15 +192,6 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
-<!--                        <configuration>-->
-<!--                            <keyname>0xBE54CB4F</keyname>-->
-<!--                            <passphraseServerId>0xBE54CB4F</passphraseServerId>-->
-<!--                            <gpgArguments>-->
-<!--                                <arg>&#45;&#45;batch</arg>-->
-<!--                                <arg>&#45;&#45;pinentry-mode</arg>-->
-<!--                                <arg>loopback</arg>-->
-<!--                            </gpgArguments>-->
-<!--                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>
