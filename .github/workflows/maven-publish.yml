@@ -26,16 +26,13 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           server-id: central
-          server-username: 8MwK955B
-          server-password: Lw97uBrGzvh6rLq7Z8orrUOpA/8n6OGm9EwwkNfX1SQ6
+          server-username: ${{ secrets.CENTRAL_USERNAME }}
+          server-password: ${{ secrets.CENTRAL_PASSWORD }}
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: !23qweasD
-          
-      - name: test
-        run: cat /home/runner/.m2/settings.xml
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Publish to the Maven Central Repository
-        run: mvn --batch-mode clean deploy -DskipTests
+        run: mvn -s /home/runner/.m2/settings.xml --batch-mode clean deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
 
       - name: Set up Java for publishing to GitHub Packages
         uses: actions/setup-java@v4.0.0
@@ -49,6 +46,6 @@ jobs:
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Publish to GitHub Packages
-        run: mvn --batch-mode clean deploy -DskipTests
+        run: mvn --batch-mode clean deploy -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
