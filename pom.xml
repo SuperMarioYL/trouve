@@ -7,7 +7,7 @@
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-all</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <name>Trouve ${project.version}</name>
     <description>Top Trouve project pom.xml file</description>
     <modules>
@@ -211,11 +211,11 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
+            <id>central</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
+            <id>central</id>
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
