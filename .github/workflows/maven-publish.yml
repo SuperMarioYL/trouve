@@ -20,6 +20,8 @@ jobs:
           server-password: MAVEN_PASSWORD
           gpg-private-key: GPG_PRIVATE_KEY
           gpg-passphrase: GPG_PASSPHRASE
+      - name: Copy settings.xml
+        run: cp .github/maven/settings.xml ${{ github.workspace }}/.m2/settings.xml
       - name: Import GPG Key
         uses: crazy-max/ghaction-import-gpg@v1
         env:
