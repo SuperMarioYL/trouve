@@ -7,7 +7,7 @@
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-all</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.9</version>
+    <version>1.0.11</version>
     <name>Trouve ${project.version}</name>
     <description>Top Trouve project pom.xml file</description>
     <modules>
@@ -153,7 +153,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>2.10.4</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
