@@ -27,4 +27,4 @@ jobs:
           server-password: ${{ secrets.CENTRAL_PASSWORD }}
 
       - name: Publish to the Maven Central Repository
-        run: mvn -s .github/maven/settings.xml --batch-mode deploy -DskipTests
+        run: mvn -s .github/maven/settings.xml --batch-mode clean deploy -DskipTests
