@@ -7,7 +7,7 @@
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-all</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <name>Trouve ${project.version}</name>
     <description>Top Trouve project pom.xml file</description>
     <modules>
