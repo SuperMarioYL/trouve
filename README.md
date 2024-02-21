@@ -15,7 +15,7 @@
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-client</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -23,7 +23,7 @@
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-server</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
