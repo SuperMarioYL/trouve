@@ -1,6 +1,6 @@
 <img src="doc/image/trouve_pic.png" width="70%" syt height="30%" />
 
-## trouve : 基于 Spring 的一款集成服务发现、服务注册、服务转发的通用 SDK
+## trouve : 简单、方便、快捷！服务于 Spring 项目的一款内嵌式集成服务发现、服务注册、服务转发的通用组件，相比于需要独立部署的 zookeeper、nacos 等，使用和部署更加简易方便
 
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
