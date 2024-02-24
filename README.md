@@ -1,15 +1,15 @@
 <img src="doc/image/trouve_pic.png" width="70%" syt height="30%" />
 
-## trouve : 简单、方便、快捷！服务于 Spring 项目的一款内嵌式集成服务发现、服务注册、服务转发的通用组件，相比于需要独立部署的 zookeeper、nacos 等，使用和部署更加简易方便
+## Trouve : Simple, convenient, and fast! A built-in integrated service discovery, service registration, and service forwarding general component for Spring projects, compared to the need for independently deployed services like Zookeeper, Nacos, etc., it is easier and more convenient to use and deploy.
 
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 --------
 
-## 介绍
+## Introduction
 
-最新版本：
+Latest version：
 
 ```xml
 <dependency>
@@ -27,9 +27,9 @@
 </dependency>
 ```
 
-## Client 端使用方式
+## Client-side usage
 
-### 1. 在 pom.xml 中引入依赖：
+### 1. Introduce the dependency package
 ```xml
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
@@ -38,31 +38,30 @@
 </dependency>
 ```
 
-### 2. 在 spring 启动类上加入注解
+### 2. To add an annotation to the Spring Boot startup class
 
 ```java
 @EnableTrouveRegistry(
-        value = "test_service_name",  // servie name, 每个接入服务需要单独起名字
-        serverAddresses = @ServerAddress(schema = "http", host = "127.0.0.1", port = 8279) // trouve 服务端地址，从配置优先获取，如果配置为空则使用注解
+        value = "test_service_name",  // servie name. Each accessing service needs to be given a separate name
+        serverAddresses = @ServerAddress(schema = "http", host = "127.0.0.1", port = 8279) // Obtain the server address of the trouve service, prioritize getting it from the configuration, and use annotation if the configuration is empty
 )
 @SpringBootApplication
 public class ClientTestApp {
 
   public static void main(String[] args) {
     SpringApplication application = new SpringApplication(ClientTestApp.class);
-    // 设置默认端口
     application.setDefaultProperties(Collections.<String, Object>singletonMap("server.port", "8278"));
     application.run(args);
   }
 }
 ```
 
-### 3. 在需要暴露的 RestController 或者 api 上加上 @ExposeApi 即可
+### 3. To expose a RestController or API, simply add @ExposeApi on it
 
-- 加在 class 上会将 class 里所有 api 暴露出去
-- 加在 API 方法上则只将该API暴露出去
+- Adding it to the class will expose all APIs within the class
+- Adding it to the API method will only expose that API
 
-例子：
+example ：
 ```java
 // expose all
 @RestController
@@ -104,24 +103,24 @@ public class ExposeAloneMethodController {
 }
 ```
 
-### 4. 支持配置的属性：
+### 4. Supported configuration properties:
 ```properties
-# trouve 支持自动获取IP，如果自动获取的IP无法使用，可以通过该属性指定IP
+# trouve Supports automatic IP acquisition. If the automatically acquired IP is not usable, this property can be used to specify an IP
 trouve.client.ip=168.0.0.1
 
-# trouve 支持自动获取 port（依赖 spring 默认配置 server.port ），如果自动获取的 port 无法使用，可以通过该属性指定port                    
+# trouve Supports automatic port acquisition (dependent on Spring's default configuration server.port). If the automatically acquired port is not usable, this property can be used to specify a port                    
 trouve.client.port=8888
 
-# spring 默认暴露端口，会优先获取该端口 
+# spring Defaults to exposing the port, will prioritize acquiring this port
 server.port= 9999
 
-# 优先获取的 trouve 服务端地址，支持传多个值，用","分割                               
+# The preferred trouve service server address, supports passing multiple values, separated by ','          
 trouve.server.address=http://127.0.0.1:8888
 ```
 
-## Server 端使用方式
+## Server-side usage
 
-### 1. 引入依赖包：
+### 1. Introduce the dependency package
 
 ```xml
 <dependency>
@@ -131,9 +130,9 @@ trouve.server.address=http://127.0.0.1:8888
 </dependency>
 ```
 
-### 2. 在启动类加入注解 `@EnableTrouveDiscover("openapi")`
+### 2. Add annotation `@EnableTrouveDiscover("openapi")` to the startup class 
 
-举例：
+example：
 ```java
 @SpringBootApplication
 @EnableTrouveDiscover("openapi")
@@ -141,20 +140,19 @@ public class ServerSingletonTestApp {
 
   public static void main(String[] args) {
     SpringApplication application = new SpringApplication(ServerSingletonTestApp.class);
-    // 设置默认端口
     application.setDefaultProperties(Collections.<String, Object>singletonMap("server.port", "8279"));
     application.run(args);
   }
 }
 ```
-必填项为 namespace 每一个 server 服务要设置一个唯一值
+Mandatory item is namespace, each server service must be set with a unique value
 
 
 
 
-### 3. 配置服务转发的入口：`TrouveRequestDispatcher.entrance(request, response);`
+### 3. Configure the entry point for service forwarding：`TrouveRequestDispatcher.entrance(request, response);`
 
-举例：
+example：
 
 ```java
 @RestController
@@ -171,15 +169,15 @@ public class EntranceController {
 
 
 
-### 4. 集群模式使用方式：
+### 4. Usage in cluster mode:
 
-- trouve  的 server 端默认开启单机模式
-- 如果要开启集群模式（通过Redis实现）需要配置如下参数：
+- The server side of trouve defaults to single-machine mode
+- "To enable cluster mode (implemented through Redis), the following parameters need to be configured:
 ```properties
-# 开启标识
+# Enable flag
 trouve.server.redis.enable=true
-# redis 地址                      
+# redis address                      
 trouve.server.redis.singleServer=127.0.0.1:6379
-# redis 密码，如果没有，可不填     
+# redis password, if none, can be left blank
 trouve.server.redis.password=123456
 ```          
