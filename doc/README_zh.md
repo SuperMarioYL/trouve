@@ -1,8 +1,13 @@
-# trouve
+<img src="image/trouve_pic.png" width="70%" syt height="30%" />
+
+## Trouve : 简单、方便、快捷！服务于 Spring 项目的一款内嵌式集成服务发现、服务注册、服务转发的通用组件，相比于需要独立部署的 zookeeper、nacos 等，使用和部署更加简易方便
+
+
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+--------
 
 ## 介绍
-
-trouve 是基于 Spring 的一款集成服务发现、服务注册、服务转发的通用 SDK ，使用简单方便快捷
 
 最新版本：
 
@@ -10,7 +15,15 @@ trouve 是基于 Spring 的一款集成服务发现、服务注册、服务转�
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-client</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
+</dependency>
+```
+
+```xml
+<dependency>
+    <groupId>com.lei6393.trouve</groupId>
+    <artifactId>trouve-server</artifactId>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -35,12 +48,12 @@ trouve 是基于 Spring 的一款集成服务发现、服务注册、服务转�
 @SpringBootApplication
 public class ClientTestApp {
 
-  public static void main(String[] args) {
-    SpringApplication application = new SpringApplication(ClientTestApp.class);
-    // 设置默认端口
-    application.setDefaultProperties(Collections.<String, Object>singletonMap("server.port", "8278"));
-    application.run(args);
-  }
+    public static void main(String[] args) {
+        SpringApplication application = new SpringApplication(ClientTestApp.class);
+        // 设置默认端口
+        application.setDefaultProperties(Collections.<String, Object>singletonMap("server.port", "8278"));
+        application.run(args);
+    }
 }
 ```
 
@@ -76,18 +89,18 @@ public class ExposeAllMethodController {
 @RequestMapping("/expose/alone")
 public class ExposeAloneMethodController {
 
-  @RequestMapping(value = "/{path}/true", produces = "application/json")
-  @ResponseBody
-  @ExposeApi
-  public String testMethodOne() {
-    return "{\"message\":\"success call client service\"}";
-  }
+    @RequestMapping(value = "/{path}/true", produces = "application/json")
+    @ResponseBody
+    @ExposeApi
+    public String testMethodOne() {
+        return "{\"message\":\"success call client service\"}";
+    }
 
-  @RequestMapping(value = "/{path}/false", produces = "application/json")
-  @ResponseBody
-  public String testMethodTwo() {
-    return "{\"message\":\"success call client service\"}";
-  }
+    @RequestMapping(value = "/{path}/false", produces = "application/json")
+    @ResponseBody
+    public String testMethodTwo() {
+        return "{\"message\":\"success call client service\"}";
+    }
 }
 ```
 
@@ -112,9 +125,9 @@ trouve.server.address=http://127.0.0.1:8888
 
 ```xml
 <dependency>
-  <groupId>com.lei6393.trouve</groupId>
-  <artifactId>trouve-server</artifactId>
-  <version>LATEST</version>
+    <groupId>com.lei6393.trouve</groupId>
+    <artifactId>trouve-server</artifactId>
+    <version>LATEST</version>
 </dependency>
 ```
 
@@ -126,12 +139,12 @@ trouve.server.address=http://127.0.0.1:8888
 @EnableTrouveDiscover("openapi")
 public class ServerSingletonTestApp {
 
-  public static void main(String[] args) {
-    SpringApplication application = new SpringApplication(ServerSingletonTestApp.class);
-    // 设置默认端口
-    application.setDefaultProperties(Collections.<String, Object>singletonMap("server.port", "8279"));
-    application.run(args);
-  }
+    public static void main(String[] args) {
+        SpringApplication application = new SpringApplication(ServerSingletonTestApp.class);
+        // 设置默认端口
+        application.setDefaultProperties(Collections.<String, Object>singletonMap("server.port", "8279"));
+        application.run(args);
+    }
 }
 ```
 必填项为 namespace 每一个 server 服务要设置一个唯一值
