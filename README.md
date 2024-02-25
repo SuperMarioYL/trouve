@@ -2,6 +2,7 @@
 
 ## Trouve : Simple, convenient, and fast! A built-in integrated service discovery, service registration, and service forwarding general component for Spring projects, compared to the need for independently deployed services like Zookeeper, Nacos, etc., it is easier and more convenient to use and deploy.
 
+[[中文版]](doc/README_zh.md)
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
