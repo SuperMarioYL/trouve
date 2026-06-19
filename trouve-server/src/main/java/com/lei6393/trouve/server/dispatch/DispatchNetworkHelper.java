@@ -42,33 +42,48 @@ public class DispatchNetworkHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DispatchNetworkHelper.class);
 
-    private static OkHttpClient client;
+    private static volatile OkHttpClient client;
 
     private static DispatchHttpProperty property;
 
     /**
-     * 获取 HTTP 客户端
+     * 获取转发用 HTTP 客户端（懒加载，双重检查锁保证全局单例，避免并发首请求构造多个连接池而泄漏）。
      *
      * @return HTTP 客户端
      */
     public static OkHttpClient getClient() {
-        if (Objects.isNull(client)) {
-            ConnectionPoolProperty poolProperty = property.pool();
-            ConnectionPool pool = new ConnectionPool(
-                    poolProperty.maxIdleConnections(),
-                    poolProperty.keepAliveDuration(),
-                    TimeUnit.MILLISECONDS
-            );
+        OkHttpClient result = client;
+        if (Objects.isNull(result)) {
+            synchronized (DispatchNetworkHelper.class) {
+                result = client;
+                if (Objects.isNull(result)) {
+                    ConnectionPoolProperty poolProperty = property.pool();
+                    ConnectionPool pool = new ConnectionPool(
+                            poolProperty.maxIdleConnections(),
+                            poolProperty.keepAliveDuration(),
+                            TimeUnit.MILLISECONDS
+                    );
 
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .connectionPool(pool)
-                    .readTimeout(property.readTimeout(), TimeUnit.MILLISECONDS)
-                    .writeTimeout(property.writeTimeout(), TimeUnit.MILLISECONDS)
-                    .connectTimeout(property.connectTimeout(), TimeUnit.MILLISECONDS)
-                    .build();
-            client = okHttpClient;
+                    result = new OkHttpClient.Builder()
+                            .connectionPool(pool)
+                            .readTimeout(property.readTimeout(), TimeUnit.MILLISECONDS)
+                            .writeTimeout(property.writeTimeout(), TimeUnit.MILLISECONDS)
+                            .connectTimeout(property.connectTimeout(), TimeUnit.MILLISECONDS)
+                            .build();
+                    client = result;
+                }
+            }
         }
-        return client;
+        return result;
+    }
+
+    /**
+     * 获取分发器 HTTP 配置（供请求参数组装读取重试次数等配置）。
+     *
+     * @return 配置，可能为 null（未加载时）
+     */
+    protected static DispatchHttpProperty getDispatchProperty() {
+        return property;
     }
 
     /**

@@ -1,0 +1,89 @@
+<svg width="1000" height="260" viewBox="0 0 1000 260" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trouve - Embedded service discovery, registration and forwarding for Spring Boot">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1000" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0A1622"/>
+      <stop offset="0.55" stop-color="#0C2630"/>
+      <stop offset="1" stop-color="#0F3A3F"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#3F9CA6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2DD4BF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#2DD4BF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="260" rx="22" fill="url(#bg)"/>
+  <circle cx="800" cy="130" r="200" fill="url(#glow)"/>
+
+  <!-- left: wordmark + tagline + pills -->
+  <g transform="translate(56,58)">
+    <!-- target / discovery glyph -->
+    <g transform="translate(0,2)" stroke="url(#accent)" stroke-width="3.2" fill="none">
+      <circle cx="22" cy="22" r="21"/>
+      <circle cx="22" cy="22" r="11.5"/>
+      <circle cx="22" cy="22" r="3.2" fill="#5EEAD4" stroke="none"/>
+    </g>
+    <text x="60" y="38" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="52" font-weight="800" fill="#F2FBFB" letter-spacing="0.5">Trouve</text>
+    <text x="62" y="74" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16.5" font-weight="500" fill="#9FD3D6">Embedded service discovery · registration · forwarding for Spring Boot</text>
+    <text x="62" y="98" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" font-weight="400" fill="#5E8E92">Spring 项目内嵌式服务发现 · 注册 · 转发组件 — 免独立部署</text>
+
+    <!-- feature pills -->
+    <g font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" font-weight="600">
+      <g transform="translate(0,120)">
+        <rect width="138" height="30" rx="15" fill="#13343B" stroke="#2DD4BF" stroke-opacity="0.4"/>
+        <circle cx="18" cy="15" r="3.4" fill="#5EEAD4"/>
+        <text x="30" y="19.5" fill="#BFE9EC">Zero Dependency</text>
+      </g>
+      <g transform="translate(150,120)">
+        <rect width="150" height="30" rx="15" fill="#13343B" stroke="#2DD4BF" stroke-opacity="0.4"/>
+        <circle cx="18" cy="15" r="3.4" fill="#5EEAD4"/>
+        <text x="30" y="19.5" fill="#BFE9EC">Annotation Driven</text>
+      </g>
+      <g transform="translate(312,120)">
+        <rect width="118" height="30" rx="15" fill="#13343B" stroke="#2DD4BF" stroke-opacity="0.4"/>
+        <circle cx="18" cy="15" r="3.4" fill="#5EEAD4"/>
+        <text x="30" y="19.5" fill="#BFE9EC">HTTP Gateway</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- right: service mesh / discovery node graphic -->
+  <g transform="translate(720,130)">
+    <!-- links -->
+    <g stroke="#2DD4BF" stroke-opacity="0.55" stroke-width="2">
+      <line x1="0" y1="0" x2="-92" y2="-66"/>
+      <line x1="0" y1="0" x2="96" y2="-58"/>
+      <line x1="0" y1="0" x2="-110" y2="40"/>
+      <line x1="0" y1="0" x2="84" y2="72"/>
+      <line x1="0" y1="0" x2="120" y2="6"/>
+    </g>
+    <!-- satellite nodes -->
+    <g fill="#0C2630" stroke="url(#accent)" stroke-width="2.4">
+      <circle cx="-92" cy="-66" r="15"/>
+      <circle cx="96" cy="-58" r="15"/>
+      <circle cx="-110" cy="40" r="15"/>
+      <circle cx="84" cy="72" r="15"/>
+      <circle cx="120" cy="6" r="15"/>
+    </g>
+    <g fill="#5EEAD4">
+      <circle cx="-92" cy="-66" r="4.5"/>
+      <circle cx="96" cy="-58" r="4.5"/>
+      <circle cx="-110" cy="40" r="4.5"/>
+      <circle cx="84" cy="72" r="4.5"/>
+      <circle cx="120" cy="6" r="4.5"/>
+    </g>
+    <!-- central hub -->
+    <circle cx="0" cy="0" r="40" fill="#103138" filter="url(#soft)"/>
+    <circle cx="0" cy="0" r="34" fill="#0E2A30" stroke="url(#accent)" stroke-width="3"/>
+    <g stroke="#5EEAD4" stroke-width="3" fill="none" stroke-linecap="round" transform="translate(0,0)">
+      <path d="M -13 -2 L 0 -15 L 13 -2"/>
+      <path d="M -13 8 L 0 -5 L 13 8" stroke-opacity="0.6"/>
+    </g>
+  </g>
+</svg>

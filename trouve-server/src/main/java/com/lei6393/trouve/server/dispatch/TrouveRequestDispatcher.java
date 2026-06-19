@@ -1,16 +1,26 @@
 package com.lei6393.trouve.server.dispatch;
 
 import com.lei6393.trouve.core.data.instance.Instance;
+import com.lei6393.trouve.core.exception.TrouveEmptyInstanceException;
+import com.lei6393.trouve.core.exception.TrouveErrorType;
+import com.lei6393.trouve.core.exception.TrouveException;
+import com.lei6393.trouve.core.exception.TrouvePayloadTooLargeException;
+import com.lei6393.trouve.core.exception.TrouveUnregisteredUrlException;
 import com.lei6393.trouve.server.bean.MatchPackage;
 import com.lei6393.trouve.server.bean.request.RequestParam;
 import com.lei6393.trouve.server.bean.response.ResponseParam;
+import com.lei6393.trouve.server.dispatch.metrics.DispatchMetrics;
+import com.lei6393.trouve.server.dispatch.resilience.ConcurrencyLimiter;
+import com.lei6393.trouve.server.loadbalance.Balancer;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServletServerHttpResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Trouve 请求分发入口，使用方式：
@@ -49,21 +59,60 @@ public class TrouveRequestDispatcher extends AbstractDispatchCenterProcessor {
     public static void entrance(@NotNull HttpServletRequest request,
                                 @NotNull HttpServletResponse response) throws Throwable {
         try (ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response)) {
+            // 入口并发限流：饱和时快速失败 503，避免无界盲转发耗尽线程
+            if (!ConcurrencyLimiter.tryAcquire()) {
+                DispatchMetrics.recordRejected();
+                LOGGER.warn("gateway concurrency limit reached, reject request: {}", request.getRequestURI());
+                flushError(httpResponse, HttpStatus.SERVICE_UNAVAILABLE,
+                        TrouveErrorType.DEFAULT_ERROR.getCode(), "trouve gateway overloaded");
+                return;
+            }
+            DispatchMetrics.recordRequest();
+            try {
+                // 请求体体积守护（opt-in）：超过上限直接 413，缓解整体缓冲 OOM
+                if (exceedsBodyLimit(request.getContentLengthLong(), maxBodyLimit())) {
+                    throw new TrouvePayloadTooLargeException();
+                }
 
-            // 构建请求匹配包
-            MatchPackage matchPackage = MatchPackage.create(request);
+                // 构建请求匹配包
+                MatchPackage matchPackage = MatchPackage.create(request);
 
-            // 匹配实例
-            Instance instance = matchInstance(matchPackage);
+                // 匹配候选实例列表
+                List<Instance> candidates = candidateInstances(matchPackage);
 
-            // 组装请求参数
-            RequestParam requestParam = assembleRequestParam(request, matchPackage, instance);
+                // 负载均衡选出首选实例
+                Instance instance = Balancer.balance(candidates);
 
-            // 执行转发，并返回结果
-            ResponseParam responseParam = execute(requestParam, instance);
+                // 组装请求参数
+                RequestParam requestParam = assembleRequestParam(request, matchPackage, instance);
 
-            // 将结果填入 http response
-            flush(httpResponse, responseParam);
+                // 执行转发（失败时在候选间故障转移），并返回结果
+                ResponseParam responseParam = execute(requestParam, instance, candidates);
+
+                // 将结果填入 http response
+                flush(httpResponse, responseParam);
+            } catch (TrouvePayloadTooLargeException e) {
+                // 请求体超限 -> 413
+                LOGGER.warn("request body too large: {}", request.getRequestURI());
+                flushError(httpResponse, HttpStatus.PAYLOAD_TOO_LARGE,
+                        TrouveErrorType.PAYLOAD_TOO_LARGE_ERROR.getCode(), e.getMessage());
+            } catch (TrouveUnregisteredUrlException e) {
+                // 未注册路由 -> 404
+                LOGGER.warn("no route matched: {}", e.getMessage());
+                flushError(httpResponse, HttpStatus.NOT_FOUND,
+                        TrouveErrorType.UNREGISTERED_URL_ERROR.getCode(), e.getMessage());
+            } catch (TrouveEmptyInstanceException e) {
+                // 无可用实例 -> 503
+                LOGGER.warn("no available instance: {}", e.getMessage());
+                flushError(httpResponse, HttpStatus.SERVICE_UNAVAILABLE,
+                        TrouveErrorType.EMPTY_INSTANCE_ERROR.getCode(), e.getMessage());
+            } catch (TrouveException e) {
+                // 其它 trouve 内部错误 -> 500
+                LOGGER.error("trouve dispatch error", e);
+                flushError(httpResponse, HttpStatus.INTERNAL_SERVER_ERROR, e.getCode(), e.getMessage());
+            } finally {
+                ConcurrencyLimiter.release();
+            }
         }
     }
 

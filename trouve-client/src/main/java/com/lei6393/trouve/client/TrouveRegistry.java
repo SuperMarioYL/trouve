@@ -32,8 +32,14 @@ public class TrouveRegistry extends ScheduledRegistry implements ApplicationCont
         // 环境变量配置
         EnvUtil.setEnvironment((ConfigurableEnvironment) applicationContext.getEnvironment());
 
-        // 从注解加载信息
+        // 从注解加载信息；无注解则走 properties-only（starter）路径
         loadBasicInfoFromAnnotation(applicationContext);
+
+        if (serviceName == null) {
+            LOGGER.warn("trouve service name is not configured (no @EnableTrouveRegistry and no '{}'), skip registry.",
+                    com.lei6393.trouve.client.common.EnvProperties.TROUVE_CLIENT_SERVICE_NAME);
+            return;
+        }
 
         // 对外暴露 API 注册
         ExposeApiRegistry.registerURIMapping(applicationContext);
@@ -58,8 +64,30 @@ public class TrouveRegistry extends ScheduledRegistry implements ApplicationCont
                 setMetaUpdateInterval(enableTrouveRegistry.metaUpdateInterval());
                 serviceName = enableTrouveRegistry.value();
                 loadServerAddresses(enableTrouveRegistry);
-                break;
+                return;
             }
         }
+
+        // 无注解：走 spring-boot-starter 的 properties-only 装配路径
+        loadFromProperties();
+    }
+
+    /**
+     * properties-only 装配（starter）：服务名取自 {@code trouve.client.service-name}，
+     * 心跳 / meta 间隔取可选配置（默认 5000 / 600000），服务端地址取自 {@code trouve.server.address}。
+     */
+    private void loadFromProperties() {
+        String name = EnvUtil.getEnv(com.lei6393.trouve.client.common.EnvProperties.TROUVE_CLIENT_SERVICE_NAME);
+        if (name == null) {
+            return;
+        }
+        serviceName = name;
+        setHeartRateInterval(EnvUtil.getProperty(
+                com.lei6393.trouve.client.common.EnvProperties.TROUVE_CLIENT_HEART_RATE_INTERVAL,
+                Long.class, 5 * 1000L));
+        setMetaUpdateInterval(EnvUtil.getProperty(
+                com.lei6393.trouve.client.common.EnvProperties.TROUVE_CLIENT_META_UPDATE_INTERVAL,
+                Long.class, 10 * 60 * 1000L));
+        loadServerAddressesFromEnv();
     }
 }

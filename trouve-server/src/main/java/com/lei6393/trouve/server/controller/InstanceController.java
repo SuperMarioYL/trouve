@@ -1,6 +1,7 @@
 package com.lei6393.trouve.server.controller;
 
 import com.lei6393.trouve.core.data.instance.Instance;
+import com.lei6393.trouve.server.auth.RegistryAuthenticator;
 import com.lei6393.trouve.server.instence.HttpRequestInstanceBuilder;
 import com.lei6393.trouve.server.instence.InstanceOperatorRegistry;
 import com.lei6393.trouve.server.instence.InstancePreCheckerRegistry;
@@ -32,6 +33,9 @@ public class InstanceController {
 
     @PostMapping()
     public ResponseEntity<String> register(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!RegistryAuthenticator.authenticate(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             Instance instance = HttpRequestInstanceBuilder.newBuilder().setRequest(request).build();
             if (InstancePreCheckerRegistry.preChecker(instance)) {
@@ -49,6 +53,9 @@ public class InstanceController {
 
     @DeleteMapping()
     public ResponseEntity<String> remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!RegistryAuthenticator.authenticate(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             Instance instance = HttpRequestInstanceBuilder.newBuilder().setRequest(request).build();
             if (InstancePreCheckerRegistry.preChecker(instance)) {
@@ -66,6 +73,9 @@ public class InstanceController {
 
     @PutMapping()
     public ResponseEntity<String> update(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!RegistryAuthenticator.authenticate(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             Instance instance = HttpRequestInstanceBuilder.newBuilder().setRequest(request).build();
             if (InstancePreCheckerRegistry.preChecker(instance)) {

@@ -34,8 +34,7 @@ public class HeartBeatSender extends AbstractSender<Instance> {
             }
         }
 
-        Request request = new Request.Builder()
-                .url(realUrl())
+        Request request = authedBuilder()
                 .post(bodyBuilder.build())
                 .build();
 
@@ -55,8 +54,7 @@ public class HeartBeatSender extends AbstractSender<Instance> {
             }
         }
 
-        Request request = new Request.Builder()
-                .url(realUrl())
+        Request request = authedBuilder()
                 .put(bodyBuilder.build())
                 .build();
 
@@ -76,8 +74,7 @@ public class HeartBeatSender extends AbstractSender<Instance> {
             }
         }
 
-        Request request = new Request.Builder()
-                .url(realUrl())
+        Request request = authedBuilder()
                 .delete(bodyBuilder.build())
                 .build();
 

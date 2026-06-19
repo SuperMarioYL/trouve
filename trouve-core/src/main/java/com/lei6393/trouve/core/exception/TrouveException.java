@@ -39,4 +39,12 @@ public class TrouveException extends Exception {
         this.message = message;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getErrorMessage() {
+        return message;
+    }
+
 }
