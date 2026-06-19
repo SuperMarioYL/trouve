@@ -59,6 +59,12 @@ public class TrouveRequestDispatcher extends AbstractDispatchCenterProcessor {
     public static void entrance(@NotNull HttpServletRequest request,
                                 @NotNull HttpServletResponse response) throws Throwable {
         try (ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response)) {
+            // 优雅停机：drain 期间拒绝新请求，等待在途完成
+            if (GatewayDrain.isDraining()) {
+                flushError(httpResponse, HttpStatus.SERVICE_UNAVAILABLE,
+                        TrouveErrorType.DEFAULT_ERROR.getCode(), "trouve gateway is draining");
+                return;
+            }
             // 入口并发限流：饱和时快速失败 503，避免无界盲转发耗尽线程
             if (!ConcurrencyLimiter.tryAcquire()) {
                 DispatchMetrics.recordRejected();
@@ -68,6 +74,7 @@ public class TrouveRequestDispatcher extends AbstractDispatchCenterProcessor {
                 return;
             }
             DispatchMetrics.recordRequest();
+            GatewayDrain.enter();
             try {
                 // 请求体体积守护（opt-in）：超过上限直接 413，缓解整体缓冲 OOM
                 if (exceedsBodyLimit(request.getContentLengthLong(), maxBodyLimit())) {
@@ -111,6 +118,7 @@ public class TrouveRequestDispatcher extends AbstractDispatchCenterProcessor {
                 LOGGER.error("trouve dispatch error", e);
                 flushError(httpResponse, HttpStatus.INTERNAL_SERVER_ERROR, e.getCode(), e.getMessage());
             } finally {
+                GatewayDrain.exit();
                 ConcurrencyLimiter.release();
             }
         }

@@ -8,6 +8,7 @@ import com.lei6393.trouve.server.bean.request.RequestParam;
 import com.lei6393.trouve.server.bean.request.UrlParam;
 import com.lei6393.trouve.server.bean.response.ResponseParam;
 import com.lei6393.trouve.server.consistency.Matcher;
+import com.lei6393.trouve.server.dispatch.health.ActiveHealthRegistry;
 import com.lei6393.trouve.server.dispatch.metrics.DispatchMetrics;
 import com.lei6393.trouve.server.dispatch.resilience.CircuitBreakerRegistry;
 import com.lei6393.trouve.server.loadbalance.Balancer;
@@ -51,8 +52,8 @@ public abstract class AbstractDispatchCenterProcessor extends DispatchComposeHel
         if (CollectionUtils.isEmpty(instances)) {
             throw new TrouveEmptyInstanceException();
         }
-        // 摘除熔断（OPEN）的实例；若全部熔断则回退原列表（fail-open）
-        return CircuitBreakerRegistry.filterAllowed(instances);
+        // 依次摘除主动探活不健康与熔断（OPEN）的实例；任一过滤后为空则回退（fail-open）
+        return ActiveHealthRegistry.filterHealthy(CircuitBreakerRegistry.filterAllowed(instances));
     }
 
     /**

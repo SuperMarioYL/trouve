@@ -158,7 +158,13 @@ public class DispatchNetworkHelper {
      * @return
      */
     private static Headers headersBuild(RequestParam requestParam) {
-        return convertHttpHeaders(requestParam.getHeaders());
+        HttpHeaders httpHeaders = requestParam.getHeaders();
+        Headers.Builder builder = convertHttpHeadersToBuilder(httpHeaders);
+        // 追踪上下文透传：无 traceparent/b3/X-Request-Id 时补一个关联 id
+        if (!TraceHeaders.hasTraceContext(httpHeaders)) {
+            builder.add(TraceHeaders.REQUEST_ID, TraceHeaders.newCorrelationId());
+        }
+        return builder.build();
     }
 
     /**
@@ -250,6 +256,10 @@ public class DispatchNetworkHelper {
     }
 
     private static Headers convertHttpHeaders(HttpHeaders httpHeaders) {
+        return convertHttpHeadersToBuilder(httpHeaders).build();
+    }
+
+    private static Headers.Builder convertHttpHeadersToBuilder(HttpHeaders httpHeaders) {
         Headers.Builder headersBuilder = new Headers.Builder();
         if (!httpHeaders.isEmpty()) {
             for (Map.Entry<String, List<String>> header : httpHeaders.entrySet()) {
@@ -258,7 +268,7 @@ public class DispatchNetworkHelper {
                 }
             }
         }
-        return headersBuilder.build();
+        return headersBuilder;
     }
 
     public static void loadProperty(DispatchHttpProperty httpProperty) {

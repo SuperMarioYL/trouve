@@ -222,6 +222,31 @@ trouve.server.redis.password=123456
 
 --------
 
+## 可观测性与运维
+
+内置管理端点（配置 `trouve.server.token` 后需鉴权）：
+
+| 端点 | 说明 |
+| --- | --- |
+| `GET /trouve/manager/dashboard` | 轻量实时面板（HTML，每 5 秒自动刷新） |
+| `GET /trouve/manager/metrics` | 转发指标 JSON |
+| `GET /trouve/manager/prometheus` | Prometheus 文本曝光格式指标 |
+| `GET /trouve/manager/health/instances` | 健康实例 id |
+
+可选、**默认关闭**的韧性 / 安全 / 运维能力（经
+`@EnableTrouveDiscover(dispatchHttpProperty = @DispatchHttpProperty(...))` 配置，部分经属性配置）：
+
+- **重试故障转移** —— 失败转发自动切换到另一个健康实例。
+- **按实例熔断** —— 连续失败的实例被摘除，半开试探恢复。
+- **并发限流** —— 限制在途转发数，超限以 `503` 削峰。
+- **请求体体积上限** —— 超限请求 `413` 拒绝。
+- **主动 HTTP 探活** —— 在被动心跳之上周期探测，带滞回。
+- **控制面鉴权** —— 注册 / 心跳 / 元信息共享令牌（`trouve.server.token` + `trouve.client.token`）。
+- **优雅停机** —— 关闭时排空在途转发（`trouve.server.shutdown-drain-millis`）。
+- **追踪透传** —— 透传 `traceparent` / `b3`，缺失时补 `X-Request-Id`。
+
+--------
+
 ## 模块说明
 
 | 模块 | 职责 |
