@@ -13,6 +13,9 @@
 
     <artifactId>trouve-client</artifactId>
 
+    <name>Trouve Client</name>
+    <description>Trouve client: annotation-driven service registration and API exposure for Spring Boot.</description>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -12,6 +12,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>trouve-examples</artifactId>
+
+    <name>Trouve Examples</name>
+    <description>Trouve runnable examples (aggregator).</description>
     <packaging>pom</packaging>
     <modules>
         <module>client-example</module>

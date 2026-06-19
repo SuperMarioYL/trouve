@@ -13,6 +13,9 @@
 
     <artifactId>server-singleton-example</artifactId>
 
+    <name>Trouve Server Singleton Example</name>
+    <description>Trouve runnable singleton-mode server example.</description>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
