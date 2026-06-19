@@ -12,7 +12,6 @@
   <img src="https://img.shields.io/badge/JDK-17%2B-2DD4BF.svg" alt="JDK 17+">
   <img src="https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F.svg" alt="Spring Boot 3.x">
   <img src="https://img.shields.io/badge/build-Maven-C71A36.svg" alt="Maven">
-  <img src="https://img.shields.io/badge/version-3.0.0-informational.svg" alt="version">
 </p>
 
 <p align="center"><a href="doc/README_zh.md">中文版</a></p>
