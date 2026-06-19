@@ -17,7 +17,7 @@
 | **v2.0 Resilience** | ✅ 基本完成 | ✅ retry-with-failover、✅ 按实例熔断器、✅ 入口并发限流、✅ 请求体体积守护(413)、✅ 优雅停机(drain)、✅ 主动 HTTP 探活(滞回)；按路由超时待办 |
 | **v2.1 Observability & Trust** | ✅ 基本完成 | ✅ 控制面共享令牌鉴权、✅ 内置指标 + `/metrics` + `/prometheus` 文本格式、✅ 管理面板 `/dashboard`、✅ trace 透传(traceparent/b3 + X-Request-Id)、✅ 未匹配 404；Micrometer 原生绑定待办 |
 | **v2.2 Zero-Config DX** | 🟡 大部分 | ✅ spring-boot-starter 自动装配（client+server，properties-only，**Spring 上下文集成测试验证**）、✅ 可选自动注册转发入口、✅ spring-configuration-metadata IDE 补全；统一 @ConfigurationProperties / 面板待办 |
-| **v3.0 Platform Modernization** | ⬜ 刻意未做 | Boot3/Jakarta 为**破坏性**迁移（javax→jakarta 会破坏当前 Boot2 构建），需 Maven profile + Boot2/Boot3 双制品矩阵才能不伤存量用户；非 in-place 能完成，留作独立分支阶段。非破坏性前置（可插拔 HttpClient、jacoco 覆盖率门禁、OWASP 扫描）可先行 |
+| **v3.0 Platform Modernization** | ✅ 独立分支完成 | 分支 `feat/trouve-boot3-jakarta`：Spring Boot 3.2 + Jakarta + Java 17，javax.servlet→jakarta.servlet(15 文件)、HttpMethod 由 enum 改类的 switch→if、`spring.factories`→`AutoConfiguration.imports`+`@AutoConfiguration`、javadoc 插件升级/`@date` 自定义标签。双制品策略：Boot2 留分支 `feat/trouve-optimization-v1.2-v2.2`（main 线），Boot3 在本分支并行维护。**48 测试 + `mvn package` 在 Java 17 全绿** |
 
 已验证：`mvn package`（Java 11）全模块 BUILD SUCCESS，**48 个回归测试全绿**（含 starter 自动装配的真实 Spring 上下文集成测试）。
 所有新增韧性/安全/可观测/DX 能力**默认关闭或行为兼容**，不破坏既有 happy path。

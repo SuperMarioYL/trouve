@@ -9,13 +9,17 @@
 
 <p align="center">
   <a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img src="https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg" alt="License"></a>
-  <img src="https://img.shields.io/badge/JDK-11%2B-2DD4BF.svg" alt="JDK 11+">
-  <img src="https://img.shields.io/badge/Spring%20Boot-2.x-6DB33F.svg" alt="Spring Boot 2.x">
+  <img src="https://img.shields.io/badge/JDK-17%2B-2DD4BF.svg" alt="JDK 17+">
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F.svg" alt="Spring Boot 3.x">
   <img src="https://img.shields.io/badge/build-Maven-C71A36.svg" alt="Maven">
   <img src="https://img.shields.io/badge/version-1.1.0-informational.svg" alt="version">
 </p>
 
 <p align="center"><a href="../README.md">English</a></p>
+
+> **兼容性：** 本分支面向 **Spring Boot 3.x / Jakarta EE / Java 17+**。
+> 如需 Spring Boot 2.x（javax、Java 11+），请使用 `main` 主线。两者作为并行制品维护，
+> 既有 Boot 2 用户无需被迫迁移。
 
 --------
 

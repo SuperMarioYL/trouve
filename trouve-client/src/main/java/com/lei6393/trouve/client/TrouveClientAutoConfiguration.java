@@ -1,8 +1,8 @@
 package com.lei6393.trouve.client;
 
 import com.lei6393.trouve.client.common.EnvProperties;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
  *
  * @author trouve
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(name = EnvProperties.TROUVE_CLIENT_SERVICE_NAME)
 @Import({TrouveRegistryConfiguration.class, DefaultTrouveRegistryConfiguration.class})
 public class TrouveClientAutoConfiguration {

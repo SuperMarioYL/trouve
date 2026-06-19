@@ -1,6 +1,6 @@
 package com.lei6393.trouve.server.bean;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author leiyu

@@ -2,7 +2,7 @@ package com.lei6393.trouve.server.instence;
 
 import com.lei6393.trouve.core.data.instance.Instance;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 /**

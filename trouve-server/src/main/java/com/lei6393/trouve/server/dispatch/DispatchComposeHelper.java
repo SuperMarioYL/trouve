@@ -22,8 +22,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.support.MultipartResolutionDelegate;
 import org.springframework.web.multipart.support.RequestPartServletServerHttpRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
