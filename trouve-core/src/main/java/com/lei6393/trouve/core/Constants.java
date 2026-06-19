@@ -25,4 +25,9 @@ public class Constants {
      */
     public static final int DEFAULT_INSTANCE_WEIGHT = 100;
 
+    /**
+     * 控制面（注册 / 心跳 / 元信息）鉴权令牌的 HTTP 头名，client 与 server 共用。
+     */
+    public static final String TROUVE_TOKEN_HEADER = "X-Trouve-Token";
+
 }

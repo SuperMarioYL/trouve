@@ -3,6 +3,7 @@ package com.lei6393.trouve.server.controller;
 import com.lei6393.trouve.core.data.MetaMsg;
 import com.lei6393.trouve.core.data.instance.Instance;
 import com.lei6393.trouve.core.utils.GsonUtil;
+import com.lei6393.trouve.server.auth.RegistryAuthenticator;
 import com.lei6393.trouve.server.instence.InstancePreCheckerRegistry;
 import com.lei6393.trouve.server.instence.generator.DefaultInstanceIdGenerator;
 import com.lei6393.trouve.server.meta.MetaOperatorRegistry;
@@ -37,6 +38,9 @@ public class MetaController {
 
     @PostMapping()
     public ResponseEntity<String> register(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!RegistryAuthenticator.authenticate(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             MetaMsg metaMsg = buildMetaFromRequest(request);
             if (InstancePreCheckerRegistry.preChecker(metaMsg.getInstance())) {
@@ -54,6 +58,9 @@ public class MetaController {
 
     @DeleteMapping()
     public ResponseEntity<String> remove(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!RegistryAuthenticator.authenticate(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             MetaMsg metaMsg = buildMetaFromRequest(request);
             if (InstancePreCheckerRegistry.preChecker(metaMsg.getInstance())) {
@@ -71,6 +78,9 @@ public class MetaController {
 
     @PutMapping()
     public ResponseEntity<String> update(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!RegistryAuthenticator.authenticate(request)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         try {
             MetaMsg metaMsg = buildMetaFromRequest(request);
             if (InstancePreCheckerRegistry.preChecker(metaMsg.getInstance())) {

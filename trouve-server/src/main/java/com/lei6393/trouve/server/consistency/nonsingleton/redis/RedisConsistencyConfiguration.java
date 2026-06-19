@@ -5,7 +5,7 @@ import com.lei6393.trouve.server.common.EnvProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.codec.SerializationCodec;
+import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,7 +34,9 @@ public class RedisConsistencyConfiguration {
         }
 
         Config config = new Config();
-        config.setCodec(new SerializationCodec());
+        // 安全考量：禁用 JDK 序列化 codec（SerializationCodec 在不可信数据下是反序列化 RCE 原语），
+        // 改用基于 Jackson 的 JSON codec。Instance/Set 均为 Jackson 友好的 POJO，序列化往返兼容。
+        config.setCodec(new JsonJacksonCodec());
 
         SingleServerConfig singleServerConfig = config.useSingleServer();
         singleServerConfig.setAddress(Constants.REDIS_SCHEMA + singleServer);

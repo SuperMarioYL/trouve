@@ -27,8 +27,7 @@ public class MetaSender extends AbstractSender<MetaMsg> {
 
     @Override
     protected boolean realRegister(MetaMsg metaMsg) {
-        Request request = new Request.Builder()
-                .url(realUrl())
+        Request request = authedBuilder()
                 .post(RequestBody.create(GsonUtil.INSTANCE.toJson(metaMsg),
                         MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE)))
                 .build();
@@ -42,8 +41,7 @@ public class MetaSender extends AbstractSender<MetaMsg> {
 
     @Override
     protected boolean realUpdate(MetaMsg metaMsg) {
-        Request request = new Request.Builder()
-                .url(realUrl())
+        Request request = authedBuilder()
                 .put(RequestBody.create(GsonUtil.INSTANCE.toJson(metaMsg),
                         MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE)))
                 .build();
@@ -57,8 +55,7 @@ public class MetaSender extends AbstractSender<MetaMsg> {
 
     @Override
     protected boolean realRemove(MetaMsg metaMsg) {
-        Request request = new Request.Builder()
-                .url(realUrl())
+        Request request = authedBuilder()
                 .delete(RequestBody.create(GsonUtil.INSTANCE.toJson(metaMsg),
                         MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE)))
                 .build();

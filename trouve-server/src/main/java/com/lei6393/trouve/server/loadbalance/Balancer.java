@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class Balancer {
 
-    private static LoadBalancePolicy policy;
+    private static volatile LoadBalancePolicy policy;
 
     public static void defineLoadBalancePolicy(@NotNull LoadBalancePolicy loadBalancePolicy) {
         if (Objects.isNull(policy)) {
@@ -25,7 +25,11 @@ public class Balancer {
     }
 
     public static Instance balance(@NotNull List<Instance> instances) throws TrouveException {
-        Instance instance = policy.select(instances);
+        LoadBalancePolicy current = policy;
+        if (Objects.isNull(current)) {
+            throw new TrouveException("load balance policy is not initialized!");
+        }
+        Instance instance = current.select(instances);
         if (Objects.isNull(instance)) {
             throw new TrouveException("instance is null!");
         }

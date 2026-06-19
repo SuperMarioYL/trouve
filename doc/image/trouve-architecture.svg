@@ -1,0 +1,125 @@
+<svg width="1000" height="560" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="Trouve architecture: consumers call the embedded gateway which matches, load-balances and forwards to registered Spring providers">
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0E2A30"/>
+      <stop offset="1" stop-color="#0A1A20"/>
+    </linearGradient>
+    <linearGradient id="gw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#123C43"/>
+      <stop offset="1" stop-color="#0E2F35"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5EEAD4"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7FB4BA"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="560" rx="20" fill="url(#panel)"/>
+  <text x="40" y="48" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#EAFBFB">Trouve Architecture</text>
+  <text x="40" y="72" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13" fill="#7FB4BA">Embedded gateway — no separately deployed registry</text>
+
+  <!-- ===================== Consumer ===================== -->
+  <g transform="translate(40,150)">
+    <rect width="170" height="120" rx="14" fill="#11333A" stroke="#2DD4BF" stroke-opacity="0.45" stroke-width="1.5"/>
+    <text x="85" y="34" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#EAFBFB">Consumer</text>
+    <text x="85" y="58" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#9FD3D6">any HTTP client</text>
+    <text x="85" y="88" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" fill="#6FA3A8">GET /api/order/123</text>
+    <rect x="28" y="98" width="114" height="2" fill="#2DD4BF" opacity="0.25"/>
+  </g>
+
+  <!-- ===================== Trouve Gateway (center) ===================== -->
+  <g transform="translate(330,108)">
+    <rect width="330" height="344" rx="18" fill="url(#gw)" stroke="#2DD4BF" stroke-opacity="0.55" stroke-width="2"/>
+    <text x="165" y="36" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16" font-weight="800" fill="#5EEAD4">Trouve Server</text>
+    <text x="165" y="56" text-anchor="middle" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5" fill="#9FD3D6">@EnableTrouveDiscover · embedded in your Spring app</text>
+
+    <!-- pipeline blocks -->
+    <g font-family="'Segoe UI',Helvetica,Arial,sans-serif">
+      <g transform="translate(28,78)">
+        <rect width="274" height="44" rx="10" fill="#0E2A30" stroke="#3CC7C0" stroke-opacity="0.5"/>
+        <circle cx="26" cy="22" r="9" fill="none" stroke="#5EEAD4" stroke-width="2"/>
+        <path d="M21 22 h10 M26 17 v10" stroke="#5EEAD4" stroke-width="2"/>
+        <text x="48" y="20" font-size="13" font-weight="600" fill="#EAFBFB">Entrance</text>
+        <text x="48" y="35" font-size="10.5" fill="#7FB4BA">catch-all · 异常边界 404/503/502</text>
+      </g>
+      <g transform="translate(28,132)">
+        <rect width="274" height="44" rx="10" fill="#0E2A30" stroke="#3CC7C0" stroke-opacity="0.5"/>
+        <circle cx="26" cy="22" r="9" fill="none" stroke="#5EEAD4" stroke-width="2"/>
+        <path d="M22 26 l4 -9 l4 9" fill="none" stroke="#5EEAD4" stroke-width="2"/>
+        <text x="48" y="20" font-size="13" font-weight="600" fill="#EAFBFB">Matcher</text>
+        <text x="48" y="35" font-size="10.5" fill="#7FB4BA">url → instances · 并发快照 + 路由缓存</text>
+      </g>
+      <g transform="translate(28,186)">
+        <rect width="274" height="44" rx="10" fill="#0E2A30" stroke="#3CC7C0" stroke-opacity="0.5"/>
+        <circle cx="26" cy="22" r="9" fill="none" stroke="#5EEAD4" stroke-width="2"/>
+        <path d="M21 25 v-6 M26 25 v-10 M31 25 v-4" stroke="#5EEAD4" stroke-width="2"/>
+        <text x="48" y="20" font-size="13" font-weight="600" fill="#EAFBFB">Load Balancer</text>
+        <text x="48" y="35" font-size="10.5" fill="#7FB4BA">加权随机 / 随机 / 最短响应</text>
+      </g>
+      <g transform="translate(28,240)">
+        <rect width="274" height="44" rx="10" fill="#0E2A30" stroke="#3CC7C0" stroke-opacity="0.5"/>
+        <circle cx="26" cy="22" r="9" fill="none" stroke="#5EEAD4" stroke-width="2"/>
+        <path d="M21 22 h10 M27 18 l4 4 l-4 4" fill="none" stroke="#5EEAD4" stroke-width="2"/>
+        <text x="48" y="20" font-size="13" font-weight="600" fill="#EAFBFB">Dispatcher</text>
+        <text x="48" y="35" font-size="10.5" fill="#7FB4BA">OkHttp 转发 · 失败故障转移 → 502/504</text>
+      </g>
+      <!-- health + registry footer -->
+      <g transform="translate(28,296)">
+        <rect width="132" height="34" rx="9" fill="#11333A" stroke="#2DD4BF" stroke-opacity="0.35"/>
+        <text x="66" y="22" text-anchor="middle" font-size="11" fill="#BFE9EC">Health Checker</text>
+      </g>
+      <g transform="translate(170,296)">
+        <rect width="132" height="34" rx="9" fill="#11333A" stroke="#2DD4BF" stroke-opacity="0.35"/>
+        <text x="66" y="22" text-anchor="middle" font-size="11" fill="#BFE9EC">Registry Table</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===================== Providers (right) ===================== -->
+  <g transform="translate(780,120)" font-family="'Segoe UI',Helvetica,Arial,sans-serif">
+    <text x="90" y="-2" text-anchor="middle" font-size="13" font-weight="700" fill="#EAFBFB">Providers</text>
+    <g transform="translate(0,12)">
+      <rect width="180" height="74" rx="12" fill="#11333A" stroke="#2DD4BF" stroke-opacity="0.45" stroke-width="1.5"/>
+      <text x="90" y="28" text-anchor="middle" font-size="12.5" font-weight="600" fill="#EAFBFB">Spring App #1</text>
+      <text x="90" y="48" text-anchor="middle" font-size="10.5" fill="#9FD3D6">@EnableTrouveRegistry</text>
+      <text x="90" y="63" text-anchor="middle" font-size="10.5" fill="#6FA3A8">@ExposeApi</text>
+    </g>
+    <g transform="translate(0,100)">
+      <rect width="180" height="74" rx="12" fill="#11333A" stroke="#2DD4BF" stroke-opacity="0.45" stroke-width="1.5"/>
+      <text x="90" y="28" text-anchor="middle" font-size="12.5" font-weight="600" fill="#EAFBFB">Spring App #2</text>
+      <text x="90" y="48" text-anchor="middle" font-size="10.5" fill="#9FD3D6">@EnableTrouveRegistry</text>
+      <text x="90" y="63" text-anchor="middle" font-size="10.5" fill="#6FA3A8">@ExposeApi</text>
+    </g>
+    <g transform="translate(0,188)">
+      <rect width="180" height="58" rx="12" fill="#0E2A30" stroke="#2DD4BF" stroke-opacity="0.25" stroke-dasharray="4 4"/>
+      <text x="90" y="34" text-anchor="middle" font-size="12" fill="#6FA3A8">… Spring App #n</text>
+    </g>
+  </g>
+
+  <!-- ===================== Redis (optional) ===================== -->
+  <g transform="translate(395,478)" font-family="'Segoe UI',Helvetica,Arial,sans-serif">
+    <ellipse cx="100" cy="10" rx="100" ry="11" fill="#11333A" stroke="#2DD4BF" stroke-opacity="0.4"/>
+    <rect x="0" y="10" width="200" height="34" fill="#11333A"/>
+    <ellipse cx="100" cy="44" rx="100" ry="11" fill="#0E2A30" stroke="#2DD4BF" stroke-opacity="0.4"/>
+    <path d="M0 10 v34 M200 10 v34" stroke="#2DD4BF" stroke-opacity="0.4"/>
+    <text x="100" y="32" text-anchor="middle" font-size="11.5" fill="#BFE9EC">Redis · cluster mode (optional)</text>
+  </g>
+
+  <!-- ===================== Arrows ===================== -->
+  <!-- consumer -> gateway (request) -->
+  <line x1="212" y1="210" x2="326" y2="230" stroke="#5EEAD4" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <text x="250" y="200" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" fill="#9FD3D6">request</text>
+
+  <!-- gateway -> providers (forward) -->
+  <line x1="662" y1="220" x2="776" y2="175" stroke="#5EEAD4" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <text x="690" y="188" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="11" fill="#9FD3D6">forward</text>
+
+  <!-- providers -> gateway (register, dashed up/left) -->
+  <path d="M776 250 C 720 300, 690 330, 664 350" stroke="#7FB4BA" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#arrowMuted)"/>
+  <text x="700" y="320" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="10.5" fill="#7FB4BA">heartbeat + meta</text>
+
+  <!-- gateway <-> redis -->
+  <line x1="495" y1="452" x2="495" y2="486" stroke="#7FB4BA" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrowMuted)"/>
+</svg>

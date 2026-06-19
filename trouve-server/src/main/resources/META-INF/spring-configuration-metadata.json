@@ -1,0 +1,43 @@
+{
+  "groups": [
+    {
+      "name": "trouve.server",
+      "type": "com.lei6393.trouve.server.common.EnvProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "trouve.server.namespace",
+      "type": "java.lang.String",
+      "description": "服务发现命名空间。设置该属性即可通过 starter 自动装配启用 trouve server，无需 @EnableTrouveDiscover。"
+    },
+    {
+      "name": "trouve.server.token",
+      "type": "java.lang.String",
+      "description": "控制面共享鉴权令牌。配置后注册/心跳/元信息接口要求 client 携带匹配令牌；留空则不启用鉴权。"
+    },
+    {
+      "name": "trouve.server.auto-entrance",
+      "type": "java.lang.Boolean",
+      "description": "是否自动注册内置 catch-all 转发入口控制器；默认 false（需手写 EntranceController，避免双重映射）。",
+      "defaultValue": false
+    },
+    {
+      "name": "trouve.server.redis.enable",
+      "type": "java.lang.Boolean",
+      "description": "开启 Redis 集群一致性模式，false（默认）为单机模式。",
+      "defaultValue": false
+    },
+    {
+      "name": "trouve.server.redis.singleServer",
+      "type": "java.lang.String",
+      "description": "Redis 地址，形如 127.0.0.1:6379。"
+    },
+    {
+      "name": "trouve.server.redis.password",
+      "type": "java.lang.String",
+      "description": "Redis 密码，无则留空。"
+    }
+  ],
+  "hints": []
+}

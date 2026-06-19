@@ -1,16 +1,75 @@
-<img src="doc/image/trouve_pic.png" width="70%" syt height="30%" />
+<p align="center">
+  <img src="doc/image/trouve-banner.svg" width="100%" alt="Trouve — embedded service discovery, registration and forwarding for Spring Boot" />
+</p>
 
-## Trouve : Simple, convenient, and fast! A built-in integrated service discovery, service registration, and service forwarding general component for Spring projects, compared to the need for independently deployed services like Zookeeper, Nacos, etc., it is easier and more convenient to use and deploy.
+<p align="center">
+  <b>Simple, convenient, and fast.</b> A built-in, integrated <b>service discovery + registration + forwarding</b> component for Spring projects —
+  no separately deployed registry (Zookeeper / Nacos / Eureka) required.
+</p>
 
-[[中文版]](doc/README_zh.md)
+<p align="center">
+  <a href="https://www.apache.org/licenses/LICENSE-2.0.html"><img src="https://img.shields.io/badge/license-Apache%202.0-4EB1BA.svg" alt="License"></a>
+  <img src="https://img.shields.io/badge/JDK-11%2B-2DD4BF.svg" alt="JDK 11+">
+  <img src="https://img.shields.io/badge/Spring%20Boot-2.x-6DB33F.svg" alt="Spring Boot 2.x">
+  <img src="https://img.shields.io/badge/build-Maven-C71A36.svg" alt="Maven">
+  <img src="https://img.shields.io/badge/version-1.1.0-informational.svg" alt="version">
+</p>
 
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+<p align="center"><a href="doc/README_zh.md">中文版</a></p>
 
 --------
 
-## Introduction
+## Why Trouve
 
-Latest version：
+Trouve embeds the registry **inside your own Spring Boot apps**. Providers expose APIs with a single annotation,
+and a Trouve server (also just a Spring app) discovers them and forwards traffic — so you get service discovery
+and an HTTP gateway without standing up and operating a separate cluster.
+
+| | **Trouve** | Nacos | Eureka | Zookeeper |
+| --- | :---: | :---: | :---: | :---: |
+| Separate registry to deploy | **Not required** (embedded) | Required | Required | Required |
+| Service registration | Annotation (`@EnableTrouveRegistry`) | SDK / config | SDK | Client recipes |
+| Expose an API | `@ExposeApi` | n/a | n/a | n/a |
+| Built-in request forwarding | **Yes** (gateway) | No | No | No |
+| Cluster mode | Redis (optional) | Raft | Peer replication | ZAB |
+
+## Architecture
+
+<p align="center">
+  <img src="doc/image/trouve-architecture.svg" width="92%" alt="Trouve architecture diagram" />
+</p>
+
+- **Providers** register themselves (heartbeat + exposed-API metadata) to the Trouve server on a schedule.
+- The **Trouve server** keeps a `url → instances` routing table, health-checks instances, and on each request
+  **matches** the route, **load-balances** across healthy instances, and **forwards** via OkHttp.
+- **Single-machine mode** by default; enable **cluster mode** with Redis to share state across server nodes.
+
+--------
+
+## Zero-config (Spring Boot starter)
+
+Trouve auto-configures from properties alone — **no `@Enable...` annotations required**. The annotation-based usage below still works and takes priority when both are present.
+
+**Provider** — set a service name and the server address, then annotate the APIs you expose with `@ExposeApi`:
+
+```properties
+trouve.client.service-name=my-service
+trouve.server.address=http://127.0.0.1:8279
+```
+
+**Server** — set a namespace; optionally auto-register the forwarding entrance instead of writing an `EntranceController`:
+
+```properties
+trouve.server.namespace=openapi
+# optional: auto-register the catch-all forwarding entrance (default false)
+trouve.server.auto-entrance=true
+```
+
+--------
+
+## Quick start — Client side
+
+### 1. Add the dependency
 
 ```xml
 <dependency>
@@ -20,31 +79,12 @@ Latest version：
 </dependency>
 ```
 
-```xml
-<dependency>
-    <groupId>com.lei6393.trouve</groupId>
-    <artifactId>trouve-server</artifactId>
-    <version>1.1.0</version>
-</dependency>
-```
-
-## Client-side usage
-
-### 1. Introduce the dependency package
-```xml
-<dependency>
-    <groupId>com.lei6393.trouve</groupId>
-    <artifactId>trouve-client</artifactId>
-    <version>LATEST</version>
-</dependency>
-```
-
-### 2. To add an annotation to the Spring Boot startup class
+### 2. Annotate your Spring Boot application class
 
 ```java
 @EnableTrouveRegistry(
-        value = "test_service_name",  // servie name. Each accessing service needs to be given a separate name
-        serverAddresses = @ServerAddress(schema = "http", host = "127.0.0.1", port = 8279) // Obtain the server address of the trouve service, prioritize getting it from the configuration, and use annotation if the configuration is empty
+        value = "test_service_name",  // service name — each accessing service needs its own name
+        serverAddresses = @ServerAddress(schema = "http", host = "127.0.0.1", port = 8279) // Trouve server address; configuration takes priority, annotation is the fallback
 )
 @SpringBootApplication
 public class ClientTestApp {
@@ -57,12 +97,11 @@ public class ClientTestApp {
 }
 ```
 
-### 3. To expose a RestController or API, simply add @ExposeApi on it
+### 3. Expose a RestController or API with `@ExposeApi`
 
-- Adding it to the class will expose all APIs within the class
-- Adding it to the API method will only expose that API
+- On a class: exposes all APIs within the class.
+- On a method: exposes only that API.
 
-example ：
 ```java
 // expose all
 @RestController
@@ -104,36 +143,38 @@ public class ExposeAloneMethodController {
 }
 ```
 
-### 4. Supported configuration properties:
+### 4. Supported configuration properties
+
 ```properties
-# trouve Supports automatic IP acquisition. If the automatically acquired IP is not usable, this property can be used to specify an IP
+# Trouve supports automatic IP acquisition. If the auto-acquired IP is unusable, specify one here
 trouve.client.ip=168.0.0.1
 
-# trouve Supports automatic port acquisition (dependent on Spring's default configuration server.port). If the automatically acquired port is not usable, this property can be used to specify a port                    
+# Trouve supports automatic port acquisition (based on Spring's server.port). If unusable, specify one here
 trouve.client.port=8888
 
-# spring Defaults to exposing the port, will prioritize acquiring this port
+# Spring's default exposed port — acquired with priority
 server.port= 9999
 
-# The preferred trouve service server address, supports passing multiple values, separated by ','          
+# Preferred Trouve server address(es); multiple values supported, separated by ','
 trouve.server.address=http://127.0.0.1:8888
 ```
 
-## Server-side usage
+--------
 
-### 1. Introduce the dependency package
+## Quick start — Server side
+
+### 1. Add the dependency
 
 ```xml
 <dependency>
   <groupId>com.lei6393.trouve</groupId>
   <artifactId>trouve-server</artifactId>
-  <version>LATEST</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
-### 2. Add annotation `@EnableTrouveDiscover("openapi")` to the startup class 
+### 2. Add `@EnableTrouveDiscover("openapi")` to the application class
 
-example：
 ```java
 @SpringBootApplication
 @EnableTrouveDiscover("openapi")
@@ -146,21 +187,16 @@ public class ServerSingletonTestApp {
   }
 }
 ```
-Mandatory item is namespace, each server service must be set with a unique value
 
+The mandatory item is the namespace — each server service must be given a unique value.
 
-
-
-### 3. Configure the entry point for service forwarding：`TrouveRequestDispatcher.entrance(request, response);`
-
-example：
+### 3. Configure the forwarding entry point: `TrouveRequestDispatcher.entrance(request, response)`
 
 ```java
 @RestController
 public class EntranceController {
 
-
-    @RequestMapping("**")
+    @RequestMapping("/**")
     public void entrance(HttpServletRequest request,
                          HttpServletResponse response) throws Throwable {
         TrouveRequestDispatcher.entrance(request, response);
@@ -168,17 +204,31 @@ public class EntranceController {
 }
 ```
 
+### 4. Cluster mode
 
+- The Trouve server runs in single-machine mode by default.
+- To enable cluster mode (backed by Redis), configure:
 
-### 4. Usage in cluster mode:
-
-- The server side of trouve defaults to single-machine mode
-- "To enable cluster mode (implemented through Redis), the following parameters need to be configured:
 ```properties
-# Enable flag
+# enable flag
 trouve.server.redis.enable=true
-# redis address                      
+# redis address
 trouve.server.redis.singleServer=127.0.0.1:6379
-# redis password, if none, can be left blank
+# redis password — leave blank if none
 trouve.server.redis.password=123456
-```          
+```
+
+--------
+
+## Modules
+
+| Module | Responsibility |
+| --- | --- |
+| `trouve-core` | Shared data models (Instance / Meta / ServiceInfo), utilities, exceptions, events |
+| `trouve-client` | `@EnableTrouveRegistry` + `@ExposeApi`; scheduled heartbeat & metadata reporting |
+| `trouve-server` | `@EnableTrouveDiscover`; routing table, health check, load balancing, request forwarding |
+| `trouve-examples` | Runnable client / singleton-server / cluster-server examples |
+
+## License
+
+Licensed under the [Apache License 2.0](LICENSE).

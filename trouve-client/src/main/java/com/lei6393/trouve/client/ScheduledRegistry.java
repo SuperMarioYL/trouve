@@ -8,14 +8,15 @@ import com.lei6393.trouve.client.sender.HeartBeatSender;
 import com.lei6393.trouve.client.sender.MetaSender;
 import com.lei6393.trouve.core.exception.TrouveException;
 import com.lei6393.trouve.core.utils.EnvUtil;
+import com.lei6393.trouve.core.utils.TrouveScheduler;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author leiyu
@@ -25,7 +26,7 @@ public abstract class ScheduledRegistry {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledRegistry.class);
 
-    private final Timer timer = new Timer();
+    private final ScheduledExecutorService scheduler = TrouveScheduler.newSingleThread("trouve-registry-scheduler");
 
     private List<ServerAddressParam> addressParams = new ArrayList<>();
 
@@ -50,6 +51,11 @@ public abstract class ScheduledRegistry {
             heartBeatSender = new HeartBeatSender(addressParams);
             metaSender = new MetaSender(addressParams);
 
+            // 控制面鉴权令牌（如配置）
+            String token = EnvUtil.getEnv(EnvProperties.TROUVE_CLIENT_TOKEN);
+            heartBeatSender.setToken(token);
+            metaSender.setToken(token);
+
             // 心跳和元信息注册
             heartBeatSender.register(instanceFactory.create());
             metaSender.register(metaFactory.create());
@@ -58,31 +64,16 @@ public abstract class ScheduledRegistry {
         }
 
         // 定时发送心跳信息
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    heartBeatSender.update(instanceFactory.create());
-                } catch (Exception e) {
-                    LOGGER.error("heart beat error!", e);
-                }
-            }
-        }, 0, heartRateInterval);
+        scheduler.scheduleWithFixedDelay(TrouveScheduler.guard("heart-beat", () ->
+                heartBeatSender.update(instanceFactory.create())), 0, heartRateInterval, TimeUnit.MILLISECONDS);
 
         // 定时 meta 信息
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    metaSender.update(metaFactory.create());
-                } catch (Exception e) {
-                    LOGGER.error("meta update error!", e);
-                }
-            }
-        }, metaUpdateInterval, metaUpdateInterval);
+        scheduler.scheduleWithFixedDelay(TrouveScheduler.guard("meta-update", () ->
+                metaSender.update(metaFactory.create())), metaUpdateInterval, metaUpdateInterval, TimeUnit.MILLISECONDS);
 
-        // jvm 关闭时删除 instance
+        // jvm 关闭时停止调度并注销 instance
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            scheduler.shutdownNow();
             heartBeatSender.remove(instanceFactory.create());
         }, "trouve-shutdown-instance-thread"));
     }
@@ -96,6 +87,18 @@ public abstract class ScheduledRegistry {
         } else {
             for (ServerAddress address : enableTrouveRegistry.serverAddresses()) {
                 addressParams.add(ServerAddressParam.of(address));
+            }
+        }
+    }
+
+    /**
+     * 仅从配置属性 {@code trouve.server.address} 加载服务端地址（starter 无注解路径）。
+     */
+    public void loadServerAddressesFromEnv() {
+        List<String> uris = EnvUtil.getEnvList(EnvProperties.TROUVE_SERVER_ADDRESS);
+        if (CollectionUtils.isNotEmpty(uris)) {
+            for (String uriStr : uris) {
+                addressParams.add(ServerAddressParam.of(uriStr));
             }
         }
     }

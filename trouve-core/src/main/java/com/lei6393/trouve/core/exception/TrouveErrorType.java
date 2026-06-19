@@ -12,6 +12,8 @@ public enum TrouveErrorType {
 
     REQUEST_BODY_NULL_ERROR(282003, "request body require not null"),
 
+    PAYLOAD_TOO_LARGE_ERROR(282004, "request body too large"),
+
     ;
     private int code;
 

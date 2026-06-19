@@ -6,6 +6,7 @@ import com.lei6393.trouve.server.bean.request.PartParam;
 import com.lei6393.trouve.server.bean.request.RequestParam;
 import com.lei6393.trouve.server.bean.request.UrlParam;
 import com.lei6393.trouve.server.bean.response.ResponseParam;
+import com.lei6393.trouve.server.common.DispatchHttpProperty;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.apache.commons.io.IOUtils;
@@ -61,6 +62,12 @@ public class DispatchComposeHelper extends DispatchNetworkHelper {
         requestParam.setHeaders(httpRequest.getHeaders());
 
         assembleBody(request, requestParam, instance);
+
+        // 从分发器配置注入重试次数（默认 0），打通 retryCount 配置链路
+        DispatchHttpProperty property = getDispatchProperty();
+        if (Objects.nonNull(property)) {
+            requestParam.setRetryCount(property.retryCount());
+        }
 
         DispatchInterceptorRegistry.preProcess(requestParam, httpRequest, instance);
 

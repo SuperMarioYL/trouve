@@ -1,0 +1,48 @@
+{
+  "groups": [
+    {
+      "name": "trouve.client",
+      "type": "com.lei6393.trouve.client.common.EnvProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "trouve.client.service-name",
+      "type": "java.lang.String",
+      "description": "服务名。设置该属性即可通过 starter 自动装配启用注册，无需 @EnableTrouveRegistry。"
+    },
+    {
+      "name": "trouve.client.ip",
+      "type": "java.lang.String",
+      "description": "对外暴露的 IP，留空则自动获取本机地址。"
+    },
+    {
+      "name": "trouve.client.port",
+      "type": "java.lang.Integer",
+      "description": "对外暴露的端口，留空则取 server.port。"
+    },
+    {
+      "name": "trouve.client.token",
+      "type": "java.lang.String",
+      "description": "控制面鉴权令牌，需与服务端 trouve.server.token 一致；留空则不携带。"
+    },
+    {
+      "name": "trouve.client.heart-rate-interval",
+      "type": "java.lang.Long",
+      "description": "心跳间隔（毫秒），starter 可选配置。",
+      "defaultValue": 5000
+    },
+    {
+      "name": "trouve.client.meta-update-interval",
+      "type": "java.lang.Long",
+      "description": "meta 更新间隔（毫秒），starter 可选配置。",
+      "defaultValue": 600000
+    },
+    {
+      "name": "trouve.server.address",
+      "type": "java.lang.String",
+      "description": "trouve 服务端地址，支持多个用英文逗号分隔。"
+    }
+  ],
+  "hints": []
+}
