@@ -13,6 +13,9 @@
 
     <artifactId>server-nonsingleton-example</artifactId>
 
+    <name>Trouve Server Cluster Example</name>
+    <description>Trouve runnable cluster-mode (Redis) server example.</description>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

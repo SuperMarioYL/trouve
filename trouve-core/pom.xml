@@ -14,6 +14,9 @@
 
     <artifactId>trouve-core</artifactId>
 
+    <name>Trouve Core</name>
+    <description>Trouve shared core: data models, utilities, exceptions and events.</description>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
