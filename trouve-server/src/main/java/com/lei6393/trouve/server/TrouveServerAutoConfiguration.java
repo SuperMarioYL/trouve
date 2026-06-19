@@ -5,10 +5,10 @@ import com.lei6393.trouve.server.consistency.nonsingleton.redis.RedisConsistency
 import com.lei6393.trouve.server.consistency.singleton.SingletonConsistencyConfiguration;
 import com.lei6393.trouve.server.controller.TrouveEntranceController;
 import com.lei6393.trouve.server.loadbalance.support.LoadBalanceConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
  *
  * @author trouve
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(name = EnvProperties.TROUVE_SERVER_NAMESPACE)
 @Import({
         TrouveDiscoverConfiguration.class,

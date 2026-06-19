@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.lei6393.trouve.server.TrouveServerAutoConfiguration

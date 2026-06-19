@@ -3,7 +3,7 @@ package com.lei6393.trouve.server.auth;
 import com.lei6393.trouve.core.Constants;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 控制面（注册 / 心跳 / 元信息）共享令牌鉴权。

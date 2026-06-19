@@ -2,7 +2,7 @@ package com.lei6393.trouve.server.instence;
 
 import com.lei6393.trouve.core.data.instance.Instance;
 
-import javax.validation.constraints.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 实例预检查

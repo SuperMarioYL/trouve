@@ -174,52 +174,29 @@ public class DispatchNetworkHelper {
      * @param requestParam
      */
     private static void bodyFill(Request.Builder requestBuilder, RequestParam requestParam) throws TrouveException {
+        // Spring 6 起 HttpMethod 不再是 enum，改用 if/else 比较常量
         HttpMethod method = requestParam.getMethod();
-        RequestBody body;
-        switch (method) {
-            case GET:
-                requestBuilder.get();
-                break;
-
-            case HEAD:
-                requestBuilder.head();
-                break;
-
-            case POST:
-                body = extractBody(requestParam);
-                if (Objects.nonNull(body)) {
-                    requestBuilder.post(body);
-                } else {
-                    throw new TrouveNullRequestBodyException();
-                }
-                break;
-
-            case DELETE:
-                body = extractBody(requestParam);
-                requestBuilder.delete(body);
-                break;
-
-            case PUT:
-                body = extractBody(requestParam);
-                if (Objects.nonNull(body)) {
-                    requestBuilder.put(body);
-                } else {
-                    throw new TrouveNullRequestBodyException();
-                }
-                break;
-
-            case PATCH:
-                body = extractBody(requestParam);
-                if (Objects.nonNull(body)) {
-                    requestBuilder.patch(body);
-                } else {
-                    throw new TrouveNullRequestBodyException();
-                }
-                break;
-
-            default:
-                break;
+        if (HttpMethod.GET.equals(method)) {
+            requestBuilder.get();
+        } else if (HttpMethod.HEAD.equals(method)) {
+            requestBuilder.head();
+        } else if (HttpMethod.POST.equals(method)) {
+            requestBuilder.post(requireBody(requestParam));
+        } else if (HttpMethod.DELETE.equals(method)) {
+            requestBuilder.delete(extractBody(requestParam));
+        } else if (HttpMethod.PUT.equals(method)) {
+            requestBuilder.put(requireBody(requestParam));
+        } else if (HttpMethod.PATCH.equals(method)) {
+            requestBuilder.patch(requireBody(requestParam));
         }
+    }
+
+    private static RequestBody requireBody(RequestParam requestParam) throws TrouveException {
+        RequestBody body = extractBody(requestParam);
+        if (Objects.isNull(body)) {
+            throw new TrouveNullRequestBodyException();
+        }
+        return body;
     }
 
     private static RequestBody extractBody(RequestParam requestParam) {
