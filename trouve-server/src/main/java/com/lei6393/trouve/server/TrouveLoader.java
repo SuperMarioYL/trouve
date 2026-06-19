@@ -9,6 +9,8 @@ import com.lei6393.trouve.server.common.EnvProperties;
 import com.lei6393.trouve.server.dispatch.DispatchInterceptorRegistry;
 import com.lei6393.trouve.server.dispatch.DispatchNetworkHelper;
 import com.lei6393.trouve.server.dispatch.IDispatchInterceptor;
+import com.lei6393.trouve.server.dispatch.health.ActiveHealthProber;
+import com.lei6393.trouve.server.dispatch.health.ActiveHealthRegistry;
 import com.lei6393.trouve.server.dispatch.resilience.CircuitBreakerRegistry;
 import com.lei6393.trouve.server.dispatch.resilience.ConcurrencyLimiter;
 import com.lei6393.trouve.server.instence.InstanceExtensionHandler;
@@ -42,6 +44,8 @@ public class TrouveLoader implements ApplicationContextAware {
     private static ApplicationContext context;
 
     private static String namespace;
+
+    private static ActiveHealthProber activeHealthProber;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -142,6 +146,15 @@ public class TrouveLoader implements ApplicationContextAware {
                 httpProperty.circuitBreakerOpenMillis());
         ConcurrencyLimiter.configure(httpProperty.maxConcurrentRequests());
         RegistryAuthenticator.configure(EnvUtil.getEnv(EnvProperties.TROUVE_SERVER_TOKEN));
+        ActiveHealthRegistry.configure(
+                httpProperty.activeHealthCheckEnabled(),
+                httpProperty.activeHealthFailThreshold(),
+                httpProperty.activeHealthRiseThreshold());
+        if (httpProperty.activeHealthCheckEnabled() && activeHealthProber == null) {
+            activeHealthProber = new ActiveHealthProber(
+                    httpProperty.activeHealthCheckPath(),
+                    httpProperty.activeHealthCheckIntervalMillis());
+        }
     }
 
     private static void loadBalancePolicy(Class<? extends LoadBalancePolicy> clazz) {

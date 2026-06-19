@@ -62,6 +62,25 @@ public final class DispatchMetrics {
         return map;
     }
 
+    /**
+     * 以 Prometheus 文本曝光格式输出（零依赖，可直接被 Prometheus 抓取）。
+     */
+    public static String prometheus() {
+        StringBuilder sb = new StringBuilder();
+        appendCounter(sb, "trouve_requests_total", "Requests entering dispatch", REQUESTS.get());
+        appendCounter(sb, "trouve_upstream_responses_total", "Upstream responses received", UPSTREAM_RESPONSES.get());
+        appendCounter(sb, "trouve_forward_failures_total", "All-attempts-failed forwards (502/504)", FORWARD_FAILURES.get());
+        appendCounter(sb, "trouve_retries_total", "Retries via failover", RETRIES.get());
+        appendCounter(sb, "trouve_rejected_total", "Requests rejected by concurrency limit", REJECTED.get());
+        return sb.toString();
+    }
+
+    private static void appendCounter(StringBuilder sb, String name, String help, long value) {
+        sb.append("# HELP ").append(name).append(' ').append(help).append('\n');
+        sb.append("# TYPE ").append(name).append(" counter\n");
+        sb.append(name).append(' ').append(value).append('\n');
+    }
+
     /** 测试用：清零。 */
     public static void reset() {
         REQUESTS.set(0);

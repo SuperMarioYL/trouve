@@ -220,6 +220,31 @@ trouve.server.redis.password=123456
 
 --------
 
+## Observability & operations
+
+Built-in management endpoints (gated by `trouve.server.token` when auth is enabled):
+
+| Endpoint | Description |
+| --- | --- |
+| `GET /trouve/manager/dashboard` | Lightweight live dashboard (HTML, auto-refreshes every 5s) |
+| `GET /trouve/manager/metrics` | Forward metrics as JSON |
+| `GET /trouve/manager/prometheus` | Forward metrics in Prometheus text exposition format |
+| `GET /trouve/manager/health/instances` | Healthy instance ids |
+
+Optional, **default-off** resilience / security / ops capabilities (configured via
+`@EnableTrouveDiscover(dispatchHttpProperty = @DispatchHttpProperty(...))`, or properties where noted):
+
+- **Retry with failover** — retry a failed forward against a *different* healthy instance.
+- **Per-instance circuit breaker** — eject instances that fail repeatedly, half-open recovery.
+- **Concurrency limit** — cap in-flight forwards; shed load with `503` past the limit.
+- **Request body-size cap** — reject oversized bodies with `413`.
+- **Active HTTP health probing** — probe instances with hysteresis on top of passive heartbeats.
+- **Control-plane auth** — shared token on register / heartbeat / meta (`trouve.server.token` + `trouve.client.token`).
+- **Graceful drain** — finish in-flight forwards on shutdown (`trouve.server.shutdown-drain-millis`).
+- **Trace passthrough** — forwards `traceparent` / `b3`; adds an `X-Request-Id` when absent.
+
+--------
+
 ## Modules
 
 | Module | Responsibility |

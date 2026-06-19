@@ -23,6 +23,12 @@
       "defaultValue": false
     },
     {
+      "name": "trouve.server.shutdown-drain-millis",
+      "type": "java.lang.Long",
+      "description": "优雅停机时等待在途转发完成的最长时间（毫秒）。",
+      "defaultValue": 30000
+    },
+    {
       "name": "trouve.server.redis.enable",
       "type": "java.lang.Boolean",
       "description": "开启 Redis 集群一致性模式，false（默认）为单机模式。",

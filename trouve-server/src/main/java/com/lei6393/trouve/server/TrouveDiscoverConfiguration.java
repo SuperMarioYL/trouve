@@ -2,6 +2,7 @@ package com.lei6393.trouve.server;
 
 import com.lei6393.trouve.server.controller.InstanceController;
 import com.lei6393.trouve.server.controller.MetaController;
+import com.lei6393.trouve.server.dispatch.TrouveGatewayLifecycle;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,12 @@ public class TrouveDiscoverConfiguration {
     @ConditionalOnMissingBean
     public TrouveLoader getTrouveLoader() {
         return new TrouveLoader();
+    }
+
+    @Bean("trouve_gateway_lifecycle")
+    @ConditionalOnMissingBean
+    public TrouveGatewayLifecycle getTrouveGatewayLifecycle() {
+        return new TrouveGatewayLifecycle();
     }
 
 }

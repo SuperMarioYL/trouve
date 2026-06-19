@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -127,6 +128,17 @@ public class Matcher {
 
     public static List<Instance> getInstances(String uri) {
         return toInstances(uriMapping.get(uri));
+    }
+
+    /**
+     * 当前路由表中去重后的全部实例（用于主动探活遍历）。
+     */
+    public static Set<Instance> allInstances() {
+        Set<Instance> all = new HashSet<>();
+        for (Set<Instance> instances : uriMapping.values()) {
+            all.addAll(instances);
+        }
+        return all;
     }
 
     // ----------------------------- internals -----------------------------

@@ -20,6 +20,11 @@ public class EnvProperties {
     public static final String TROUVE_SERVER_AUTO_ENTRANCE = "trouve.server.auto-entrance";
 
     /**
+     * 优雅停机时等待在途转发完成的最长时间（毫秒），默认 30000。
+     */
+    public static final String TROUVE_SERVER_SHUTDOWN_DRAIN_MILLIS = "trouve.server.shutdown-drain-millis";
+
+    /**
      * 开启 Redis 一致性存储，如果为 false 则启用 singleton 模式
      * {@link RedisConsistencyConfiguration}
      * {@link SingletonConsistencyConfiguration}

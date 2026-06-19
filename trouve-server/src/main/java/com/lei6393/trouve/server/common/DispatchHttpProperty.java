@@ -99,4 +99,40 @@ public @interface DispatchHttpProperty {
      * @return 最大请求体字节数
      */
     long maxBodyBytes() default 0;
+
+    /**
+     * 是否开启主动 HTTP 健康探活，默认 false（仅依赖被动心跳）。
+     * 开启后周期探测各实例并按滞回摘除/恢复。
+     *
+     * @return 是否开启主动探活
+     */
+    boolean activeHealthCheckEnabled() default false;
+
+    /**
+     * 主动探活的 HTTP 路径，默认 /actuator/health。
+     *
+     * @return 探活路径
+     */
+    String activeHealthCheckPath() default "/actuator/health";
+
+    /**
+     * 主动探活间隔（毫秒），默认 10000。
+     *
+     * @return 探活间隔
+     */
+    long activeHealthCheckIntervalMillis() default 10000;
+
+    /**
+     * 连续失败多少次判不健康（滞回），默认 3。
+     *
+     * @return 失败阈值
+     */
+    int activeHealthFailThreshold() default 3;
+
+    /**
+     * 连续成功多少次恢复健康（滞回），默认 2。
+     *
+     * @return 恢复阈值
+     */
+    int activeHealthRiseThreshold() default 2;
 }
