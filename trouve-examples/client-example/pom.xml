@@ -13,6 +13,9 @@
 
     <artifactId>client-example</artifactId>
 
+    <name>Trouve Client Example</name>
+    <description>Trouve runnable client example.</description>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

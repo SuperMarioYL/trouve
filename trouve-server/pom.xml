@@ -13,6 +13,9 @@
 
     <artifactId>trouve-server</artifactId>
 
+    <name>Trouve Server</name>
+    <description>Trouve server: service discovery, routing, load balancing and request forwarding.</description>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
