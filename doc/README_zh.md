@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/JDK-11%2B-2DD4BF.svg" alt="JDK 11+">
   <img src="https://img.shields.io/badge/Spring%20Boot-2.x-6DB33F.svg" alt="Spring Boot 2.x">
   <img src="https://img.shields.io/badge/build-Maven-C71A36.svg" alt="Maven">
-  <img src="https://img.shields.io/badge/version-1.1.0-informational.svg" alt="version">
+  <img src="https://img.shields.io/badge/version-1.2.0-informational.svg" alt="version">
 </p>
 
 <p align="center"><a href="../README.md">English</a></p>
@@ -75,7 +75,7 @@ trouve.server.auto-entrance=true
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-client</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -170,7 +170,7 @@ trouve.server.address=http://127.0.0.1:8888
 <dependency>
     <groupId>com.lei6393.trouve</groupId>
     <artifactId>trouve-server</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
